@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SingleGroup" />
-        <activity android:name=".view.MultiGroup"></activity>
+        <activity android:name=".view.SingleGroup" android:label="@string/single_act_name" />
+        <activity android:name=".view.MultiGroup" android:label="@string/multi_act_name"></activity>
     </application>
 
 </manifest>
