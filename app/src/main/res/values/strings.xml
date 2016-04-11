@@ -2,4 +2,6 @@
     <string name="app_name">Grouply</string>
     <string name="single_act_name">Single Group</string>
     <string name="multi_act_name">Multi Group</string>
+    <string name="action_add">Add</string>
+    <string name="action_import">Import List</string>
 </resources>
