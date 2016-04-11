@@ -11,7 +11,8 @@
         android:id="@+id/list"
         android:layout_weight="2"
         android:layout_width="0dp"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
 
     <fragment
         android:name="com.firsttread.grouply.view.fragments.SingleControlFragment"

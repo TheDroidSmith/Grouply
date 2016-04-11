@@ -8,21 +8,37 @@ import android.widget.TextView;
 
 import com.firsttread.grouply.R;
 
+import java.util.ArrayList;
+
 
 public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHolder> {
 
 
-    private String[] names = {"Anthony Smith","William O'dell", "Carol Heilman", "Vivyana Triviano",
+    private ArrayList<CharSequence> names;
+
+    /*private String[] names = {"Anthony Smith","William O'dell", "Carol Heilman", "Vivyana Triviano",
             "Mike Smith", "Georgie Smith", "Spiderman", "Superman", "Batman", "Anthony Smith","William O'dell",
-            "Carol Heilman", "Vivyana Triviano"};
+            "Carol Heilman", "Vivyana Triviano"};*/
+
+    public NameListAdapter(ArrayList<CharSequence> savedNames){
+            names = savedNames;
+    }
 
     public NameListAdapter(){
+        names = new ArrayList<>();
+    }
 
+    public void addNew(String name){
+        names.add(name);
+    }
+
+    public ArrayList<CharSequence> getNameList(){
+        return names;
     }
 
     @Override
     public void onBindViewHolder(NameListAdapter.ViewHolder holder, int position) {
-        holder.getCardText().setText(names[position]);
+        holder.getCardText().setText(names.get(position));
     }
 
     @Override
@@ -33,7 +49,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return names.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

@@ -10,13 +10,24 @@ import android.view.MenuItem;
 
 import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.fragments.AddNameDialog;
+import com.firsttread.grouply.view.fragments.NameListFragment;
 
 public class SingleGroup extends AppCompatActivity {
+
+    private Fragment listFrag;
+
+    private String LIST_FRAG = "listFrag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_group);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -55,5 +66,6 @@ public class SingleGroup extends AppCompatActivity {
         newFragment.show(ft,"dialog");
 
     }
+
 
 }

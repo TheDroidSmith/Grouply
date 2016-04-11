@@ -1,6 +1,8 @@
 package com.firsttread.grouply.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +14,20 @@ import android.view.ViewGroup;
 import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.adapters.NameListAdapter;
 
+import java.util.ArrayList;
 
-public class NameListFragment extends Fragment {
+
+public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener {
+
+    private ArrayList<CharSequence> savedNames;
 
     protected RecyclerView recyclerView;
     protected NameListAdapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+
+    protected Bundle recyclerViewBundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +35,27 @@ public class NameListFragment extends Fragment {
 
         //probably get the data from realm
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+
+            savedNames = savedInstanceState.getCharSequenceArrayList("nameList");
+            adapter = new NameListAdapter(savedNames);
+            recyclerView.setAdapter(adapter);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        savedNames = adapter.getNameList();
+        outState.putCharSequenceArrayList("nameList", savedNames);
     }
 
     @Nullable
@@ -55,4 +86,9 @@ public class NameListFragment extends Fragment {
 
 
 
+    @Override
+    public void onComplete(String name) {
+        adapter.addNew(name);
+        adapter.notifyItemInserted(adapter.getItemCount());
+    }
 }
