@@ -4,4 +4,10 @@
     <string name="multi_act_name">Multi Group</string>
     <string name="action_add">Add</string>
     <string name="action_import">Import List</string>
+    <string name="button_save">Save</string>
+    <string name="button_print">Print</string>
+    <string name="button_flip">Flip Order</string>
+    <string name="button_random">Random</string>
+    <string name="button_last">Last Name</string>
+    <string name="button_first">First Name</string>
 </resources>

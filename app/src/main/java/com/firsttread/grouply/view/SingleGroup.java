@@ -14,10 +14,6 @@ import com.firsttread.grouply.view.fragments.NameListFragment;
 
 public class SingleGroup extends AppCompatActivity {
 
-    private Fragment listFrag;
-
-    private String LIST_FRAG = "listFrag";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +46,7 @@ public class SingleGroup extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void showDialog(){
 

@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
-            android:text="First Name"
+            android:text="@string/button_first"
             android:textColor="#ffffff"
             android:id="@+id/text_first"
             android:layout_centerInParent="true" />
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="Last Name"
+                android:text="@string/button_last"
                 android:textColor="#ffffff"
                 android:id="@+id/text_last"
                 android:layout_centerInParent="true" />
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="Random"
+                android:text="@string/button_random"
                 android:textColor="#ffffff"
                 android:id="@+id/text_random"
                 android:layout_centerInParent="true" />
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="Flip Order"
+                android:text="@string/button_flip"
                 android:textColor="#ffffff"
                 android:id="@+id/text_flip"
                 android:layout_centerInParent="true" />
@@ -135,11 +135,11 @@
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/export"
+        android:id="@+id/save"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:stateListAnimator="@animator/lift_on_touch"
         android:clickable="true"
         card_view:cardBackgroundColor="#5c6bc0"
@@ -156,9 +156,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="Export"
+                android:text="@string/button_save"
                 android:textColor="#ffffff"
-                android:id="@+id/text_export"
+                android:id="@+id/text_save"
                 android:layout_centerInParent="true" />
 
         </RelativeLayout>
@@ -171,7 +171,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:stateListAnimator="@animator/lift_on_touch"
         android:clickable="true"
         card_view:cardBackgroundColor="#5c6bc0"
@@ -188,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="Print"
+                android:text="@string/button_print"
                 android:textColor="#ffffff"
                 android:id="@+id/text_print"
                 android:layout_centerInParent="true" />

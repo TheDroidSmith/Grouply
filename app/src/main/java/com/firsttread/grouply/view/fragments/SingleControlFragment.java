@@ -13,6 +13,7 @@ import com.firsttread.grouply.R;
 public class SingleControlFragment extends Fragment {
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
