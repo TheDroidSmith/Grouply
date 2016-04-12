@@ -14,11 +14,9 @@ import java.util.ArrayList;
 public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHolder> {
 
 
-    private ArrayList<CharSequence> names;
 
-    /*private String[] names = {"Anthony Smith","William O'dell", "Carol Heilman", "Vivyana Triviano",
-            "Mike Smith", "Georgie Smith", "Spiderman", "Superman", "Batman", "Anthony Smith","William O'dell",
-            "Carol Heilman", "Vivyana Triviano"};*/
+
+    private ArrayList<CharSequence> names;
 
     public NameListAdapter(ArrayList<CharSequence> savedNames){
             names = savedNames;
@@ -34,6 +32,10 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
     public ArrayList<CharSequence> getNameList(){
         return names;
+    }
+
+    public void setNames(ArrayList<CharSequence> names) {
+        this.names = names;
     }
 
     @Override

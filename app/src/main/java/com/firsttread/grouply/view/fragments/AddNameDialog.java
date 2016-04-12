@@ -28,6 +28,8 @@ import com.firsttread.grouply.R;
 
 public class AddNameDialog extends DialogFragment {
 
+    private OnCompleteListener mListener;
+
     public static AddNameDialog newInstance(){
         return new AddNameDialog();
     }
@@ -54,8 +56,6 @@ public class AddNameDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-
         return super.onCreateDialog(savedInstanceState);
     }
 
@@ -103,17 +103,14 @@ public class AddNameDialog extends DialogFragment {
         return v;
     }
 
-    public static interface OnCompleteListener {
-        public abstract void onComplete(String name);
+
+    public interface OnCompleteListener {
+        void onComplete(String name);
     }
-
-    private OnCompleteListener mListener;
-
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         try{
             this.mListener = (OnCompleteListener)getActivity().
                                         getSupportFragmentManager().findFragmentById(R.id.list);
@@ -121,9 +118,6 @@ public class AddNameDialog extends DialogFragment {
             throw new ClassCastException(getActivity().toString() +
                     " must implement OnCompleteListener");
         }
-
     }
-
-
 
 }

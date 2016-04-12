@@ -1,8 +1,6 @@
 package com.firsttread.grouply.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.firsttread.grouply.presenter.NameListPresenter;
+import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
 import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.adapters.NameListAdapter;
@@ -17,9 +19,11 @@ import com.firsttread.grouply.view.adapters.NameListAdapter;
 import java.util.ArrayList;
 
 
-public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener {
+public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
+        SingleControlFragment.ActionListener {
 
     private ArrayList<CharSequence> savedNames;
+    private NameListPresenter listPresenter;
 
     protected RecyclerView recyclerView;
     protected NameListAdapter adapter;
@@ -32,7 +36,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        listPresenter = new NameListPresenter();
         //probably get the data from realm
 
     }
@@ -84,11 +88,60 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         super.onPause();
     }
 
-
-
     @Override
     public void onComplete(String name) {
         adapter.addNew(name);
         adapter.notifyItemInserted(adapter.getItemCount());
     }
+
+    @Override
+    public void retrieveAction(MyAction a) {
+        switch(a){
+            case SORT_FIRST:
+                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
+                sortFirstName();
+                break;
+            case SORT_LAST:
+                Toast.makeText(getContext(),"action received2",Toast.LENGTH_LONG).show();
+                break;
+            case SORT_RANDOM:
+                Toast.makeText(getContext(),"Randomly Sorted",Toast.LENGTH_LONG).show();
+                sortRandom();
+                break;
+            case SORT_FLIP:
+                Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
+                sortFlip();
+                break;
+            case SAVE_LIST:
+                Toast.makeText(getContext(),"action received5",Toast.LENGTH_LONG).show();
+                break;
+            case PRINT_LIST:
+                Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
+                break;
+
+            default:
+                //same as sort first
+                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
+                sortFirstName();
+                break;
+
+        }
+    }
+
+
+    private void sortFirstName(){
+        adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortRandom(){
+        adapter.setNames(listPresenter.sortRandom(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortFlip(){
+        adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
 }
