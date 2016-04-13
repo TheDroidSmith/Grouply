@@ -1,9 +1,15 @@
 package com.firsttread.grouply.presenter;
 
 
+import android.util.Log;
+
+import com.firsttread.grouply.model.Person;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import io.realm.Realm;
 
 public class NameListPresenter {
 
@@ -48,5 +54,25 @@ public class NameListPresenter {
         return nameList;
     }
 
+    public void saveGroup(final ArrayList<CharSequence> nameList, final String groupName){
+
+        Realm realm = Realm.getDefaultInstance();
+
+        try{
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    for(CharSequence name:nameList){
+                        Person personObject = realm.createObject(Person.class);
+                        personObject.setName(name.toString());
+                        personObject.setGroup(groupName);
+                    }
+                }
+            });
+        }catch(IllegalArgumentException e){
+            Log.d("NameListPresenter: "
+                    , "transaction is null, or the realm is opened from another thread");
+        }
+    }
 
 }

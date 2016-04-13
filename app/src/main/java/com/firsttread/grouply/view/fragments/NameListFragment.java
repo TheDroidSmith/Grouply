@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
+import com.firsttread.grouply.model.Person;
 import com.firsttread.grouply.presenter.NameListPresenter;
 import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
@@ -17,6 +19,8 @@ import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.adapters.NameListAdapter;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
@@ -31,13 +35,10 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
 
-    protected Bundle recyclerViewBundle;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listPresenter = new NameListPresenter();
-        //probably get the data from realm
 
     }
 
@@ -113,8 +114,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
                 sortFlip();
                 break;
-            case SAVE_LIST:
+            case SAVE_LIST: //ToDo: refactor this to save_group
                 Toast.makeText(getContext(),"action received5",Toast.LENGTH_LONG).show();
+                saveGroup();
                 break;
             case ADD_GROUP:
                 Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
@@ -147,5 +149,10 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
+
+    private void saveGroup(){
+        //listPresenter.saveGroup(adapter.getNameList());
+    }
+
 
 }
