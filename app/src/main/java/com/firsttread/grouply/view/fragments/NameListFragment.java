@@ -116,7 +116,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             case SAVE_LIST:
                 Toast.makeText(getContext(),"action received5",Toast.LENGTH_LONG).show();
                 break;
-            case PRINT_LIST:
+            case ADD_GROUP:
                 Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
                 break;
             default:

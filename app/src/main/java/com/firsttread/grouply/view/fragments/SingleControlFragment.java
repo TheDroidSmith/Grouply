@@ -14,13 +14,6 @@ import com.firsttread.grouply.R;
 
 public class SingleControlFragment extends Fragment {
 
-    private CardView sort_first_btn;
-    private CardView sort_last_btn;
-    private CardView sort_random_btn;
-    private CardView sort_flip_btn;
-    private CardView sort_save_btn;
-    private CardView sort_print_btn;
-
     private ActionListener actionListener;
 
     public enum MyAction{
@@ -29,7 +22,7 @@ public class SingleControlFragment extends Fragment {
         SORT_RANDOM,
         SORT_FLIP,
         SAVE_LIST,
-        PRINT_LIST
+        ADD_GROUP
     }
 
     @Override
@@ -48,7 +41,6 @@ public class SingleControlFragment extends Fragment {
         return rootView;
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,7 +57,7 @@ public class SingleControlFragment extends Fragment {
         sort_random_btn.setOnClickListener(sortRandom);
         sort_flip_btn.setOnClickListener(sortFlip);
         sort_save_btn.setOnClickListener(saveList);
-        sort_print_btn.setOnClickListener(printList);
+        sort_print_btn.setOnClickListener(addGroup);
 
     }
 
@@ -74,6 +66,8 @@ public class SingleControlFragment extends Fragment {
         super.onPause();
     }
 
+
+    //interface for NameListFragment to listen for button clicks and their acctions
     public interface ActionListener {
         void retrieveAction(MyAction a);
     }
@@ -81,7 +75,6 @@ public class SingleControlFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         try{
             this.actionListener = (ActionListener) getActivity()
                     .getSupportFragmentManager()
@@ -90,8 +83,8 @@ public class SingleControlFragment extends Fragment {
             throw new ClassCastException(getActivity().toString() +
                     " must implement ActionListener");
         }
-
     }
+
 
     private View.OnClickListener sortByFirst = new View.OnClickListener() {
         @Override
@@ -103,7 +96,6 @@ public class SingleControlFragment extends Fragment {
     private View.OnClickListener sortByLast = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //ToDo: finish
             actionListener.retrieveAction(MyAction.SORT_LAST);
         }
     };
@@ -111,7 +103,6 @@ public class SingleControlFragment extends Fragment {
     private View.OnClickListener sortRandom = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //ToDo: finish
             actionListener.retrieveAction(MyAction.SORT_RANDOM);
         }
     };
@@ -119,7 +110,6 @@ public class SingleControlFragment extends Fragment {
     private View.OnClickListener sortFlip = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //ToDo: finish
             actionListener.retrieveAction(MyAction.SORT_FLIP);
         }
     };
@@ -127,16 +117,14 @@ public class SingleControlFragment extends Fragment {
     private View.OnClickListener saveList = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //ToDo: finish
             actionListener.retrieveAction(MyAction.SAVE_LIST);
         }
     };
 
-    private View.OnClickListener printList = new View.OnClickListener() {
+    private View.OnClickListener addGroup = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //ToDo: finish
-            actionListener.retrieveAction(MyAction.PRINT_LIST);
+            actionListener.retrieveAction(MyAction.ADD_GROUP);
         }
     };
 
