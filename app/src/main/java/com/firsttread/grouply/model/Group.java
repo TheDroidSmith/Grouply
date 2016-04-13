@@ -9,7 +9,6 @@ public class Group extends RealmObject {
     @Required
     String groupName;
 
-    @Required
     NameList listName;
 
 

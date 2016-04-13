@@ -50,7 +50,7 @@ public class SingleControlFragment extends Fragment {
         CardView sort_random_btn = (CardView) getView().findViewById(R.id.sort_random);
         CardView sort_flip_btn = (CardView) getView().findViewById(R.id.sort_flip);
         CardView sort_save_btn = (CardView) getView().findViewById(R.id.save);
-        CardView sort_print_btn = (CardView) getView().findViewById(R.id.print);
+        CardView sort_print_btn = (CardView) getView().findViewById(R.id.add_group);
 
         sort_first_btn.setOnClickListener(sortByFirst);
         sort_last_btn.setOnClickListener(sortByLast);
