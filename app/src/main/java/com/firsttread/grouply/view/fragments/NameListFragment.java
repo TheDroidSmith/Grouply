@@ -103,6 +103,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 break;
             case SORT_LAST:
                 Toast.makeText(getContext(),"action received2",Toast.LENGTH_LONG).show();
+                sortLastName();
                 break;
             case SORT_RANDOM:
                 Toast.makeText(getContext(),"Randomly Sorted",Toast.LENGTH_LONG).show();
@@ -118,7 +119,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             case PRINT_LIST:
                 Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
                 break;
-
             default:
                 //same as sort first
                 Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
@@ -128,6 +128,10 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         }
     }
 
+    public void sortLastName(){
+        adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
 
     private void sortFirstName(){
         adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
@@ -135,7 +139,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
     private void sortRandom(){
-        adapter.setNames(listPresenter.sortRandom(adapter.getNameList()));
+        adapter.setNames(listPresenter.sortShuffle(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
 

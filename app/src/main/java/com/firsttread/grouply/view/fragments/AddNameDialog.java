@@ -30,6 +30,9 @@ public class AddNameDialog extends DialogFragment {
 
     private OnCompleteListener mListener;
 
+    private final int DIALOG_WIDTH = 1300;
+    private final int DIALOG_HEIGHT = 1100;
+
     public static AddNameDialog newInstance(){
         return new AddNameDialog();
     }
@@ -38,14 +41,12 @@ public class AddNameDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE,0);
-
     }
 
     @Override
     public void onResume() {
-
-        int width = 1300;
-        int height = 1100;
+        int width = DIALOG_WIDTH;
+        int height = DIALOG_HEIGHT;
 
         Window window = getDialog().getWindow();
         window.setLayout(width, height);

@@ -11,22 +11,34 @@ public class NameListPresenter {
         Collections.sort(nameList, new Comparator<CharSequence>() {
             @Override
             public int compare(CharSequence cs1, CharSequence cs2) {
-                return cs1.toString().compareTo(cs2.toString());
+                return cs1.toString()
+                        .toLowerCase()
+                        .compareTo(cs2.toString().toLowerCase());
             }
         });
         return nameList;
     }
 
-
     public ArrayList<CharSequence> sortLastName(ArrayList<CharSequence> nameList){
-        //ToDo: implement quicksort
 
+        Collections.sort(nameList, new Comparator<CharSequence>() {
+            @Override
+            public int compare(CharSequence cs1, CharSequence cs2) {
+
+                //to sort the last name: find substring starting at space+1 and sort there
+                int spaceIndex_1 = cs1.toString().indexOf(" ") + 1;
+                int spaceIndex_2 = cs2.toString().indexOf(" ") + 1;
+
+                return cs1.toString()
+                        .substring(spaceIndex_1)
+                        .toLowerCase()
+                        .compareTo(cs2.toString().substring(spaceIndex_2).toLowerCase());
+            }
+        });
         return nameList;
     }
 
-
-
-    public ArrayList<CharSequence> sortRandom(ArrayList<CharSequence> nameList){
+    public ArrayList<CharSequence> sortShuffle(ArrayList<CharSequence> nameList){
         Collections.shuffle(nameList);
         return nameList;
     }
@@ -35,5 +47,6 @@ public class NameListPresenter {
         Collections.reverse(nameList);
         return nameList;
     }
+
 
 }

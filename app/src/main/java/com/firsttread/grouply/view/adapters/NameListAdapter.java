@@ -15,7 +15,6 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
 
 
-
     private ArrayList<CharSequence> names;
 
     public NameListAdapter(ArrayList<CharSequence> savedNames){
@@ -34,7 +33,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
         return names;
     }
 
-    public void setNames(ArrayList<CharSequence> names) {
+    public void setNames(ArrayList<CharSequence> fisrtNames) {
         this.names = names;
     }
 
@@ -70,8 +69,6 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
         }
 
     }
-
-
 
 
 }
