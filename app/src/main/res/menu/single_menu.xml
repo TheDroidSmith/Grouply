@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/add_item"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:icon="@drawable/ic_add"
         android:title="@string/action_add"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/delete_all_remove_this"
-        android:orderInCategory="100"
-        android:title="Delete"
-        app:showAsAction="always"/>
+        android:id="@+id/clear_groups"
+        android:orderInCategory="99"
+        android:title="@string/action_clear"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/import_list"

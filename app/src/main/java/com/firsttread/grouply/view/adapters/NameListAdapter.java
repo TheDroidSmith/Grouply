@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHolder> {
 
-
-
     private ArrayList<CharSequence> names;
 
     public NameListAdapter(ArrayList<CharSequence> savedNames){
@@ -33,7 +31,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
         return names;
     }
 
-    public void setNames(ArrayList<CharSequence> fisrtNames) {
+    public void setNames(ArrayList<CharSequence> names) {
         this.names = names;
     }
 

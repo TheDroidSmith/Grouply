@@ -12,4 +12,5 @@
     <string name="button_first">First Name</string>
     <string name="button_add_group">Add Group</string>
     <string name="add_group_title">Select a Group</string>
+    <string name="action_clear">Clear Saved Groups</string>
 </resources>

@@ -9,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.firsttread.grouply.R;
+import com.firsttread.grouply.model.Group;
+import com.firsttread.grouply.model.Person;
 import com.firsttread.grouply.view.fragments.AddNameDialog;
-import com.firsttread.grouply.view.fragments.NameListFragment;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+//ToDo: add delete this group to menu
 
 public class SingleGroup extends AppCompatActivity {
 
@@ -21,6 +24,10 @@ public class SingleGroup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_group);
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(config);
+
     }
 
     @Override
@@ -29,33 +36,6 @@ public class SingleGroup extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.single_menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id){
-            case R.id.add_item:
-                //launch add dialog fragment
-                showDialog();
-                return true;
-            case R.id.delete_all_remove_this:
-                deleteRealmDB();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void deleteRealmDB(){
-        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-        Realm.deleteRealm(config);
-    }
 
     private void showDialog(){
 
@@ -72,6 +52,44 @@ public class SingleGroup extends AppCompatActivity {
         newFragment.show(ft,"dialog");
 
     }
+
+    public void clearRealm(){
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+        realm.clear(Group.class);
+        realm.clear(Person.class);
+        realm.commitTransaction();
+
+        realm.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.single_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.add_item:
+                showDialog();
+                return true;
+            case R.id.clear_groups:
+                clearRealm();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
 
 
 }

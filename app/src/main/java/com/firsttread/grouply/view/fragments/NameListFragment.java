@@ -10,13 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-import com.firsttread.grouply.model.Person;
 import com.firsttread.grouply.presenter.NameListPresenter;
 import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
@@ -25,15 +22,11 @@ import com.firsttread.grouply.view.adapters.NameListAdapter;
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
         SingleControlFragment.ActionListener {
 
     private String groupName;// for use in saveGroup
-    private String addingGroup;// for use in addGroup
 
     private ArrayList<CharSequence> savedNames;
     private NameListPresenter listPresenter;
@@ -42,16 +35,10 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     protected NameListAdapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
 
-    private final String KEY_RECYCLER_STATE = "recycler_state";
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listPresenter = new NameListPresenter();
-
-        RealmConfiguration config = new RealmConfiguration.Builder(getContext()).build();
-        Realm.setDefaultConfiguration(config);
-
     }
 
     @Override
@@ -59,7 +46,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         super.onActivityCreated(savedInstanceState);
 
         if(savedInstanceState != null){
-
             savedNames = savedInstanceState.getCharSequenceArrayList("nameList");
             adapter = new NameListAdapter(savedNames);
             recyclerView.setAdapter(adapter);
@@ -96,12 +82,8 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
-
+    //add person dialog button listener here
     @Override
     public void onComplete(String name) {
         adapter.addNew(name);
@@ -109,7 +91,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
 
-
+    //actions from SingleControl go here
     @Override
     public void retrieveAction(MyAction a) {
         switch(a){
@@ -129,13 +111,11 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 sortFlip();
                 Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
                 break;
-            case SAVE_LIST: //ToDo: refactor this to save_group
+            case SAVE_LIST: //save group
                 makeSaveGroupDialog();
                 break;
             case ADD_GROUP:
-                //listPresenter.deleteRealm();
-                addGroup();
-                Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
+                makeAddGroupDialog();
                 break;
             default:
                 sortFirstName();
@@ -143,6 +123,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 break;
         }
     }
+
 
     public void sortLastName(){
         adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
@@ -182,7 +163,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         if(groupName.isEmpty()){
                             Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
                         }else{
-                            listPresenter.saveGroup(adapter.getNameList(),groupName,getContext());
+                            listPresenter.saveGroup(adapter.getNameList(),groupName);
                             Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
                         }
                         dialog.dismiss();
@@ -197,10 +178,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
     }
 
-    private void addGroup(){
-        makeAddGroupDialog();
-    }
-
     private void makeAddGroupDialog(){
 
         CharSequence[] groupList = listPresenter.getGroupList();
@@ -210,7 +187,13 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 .setItems(groupList, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),"testing 1,2,3",Toast.LENGTH_LONG).show();
+                        //setAdapter with the saved list names
+                        //and rebuild adapter
+                        ListView lv = ((AlertDialog)dialog).getListView();
+                        String groupText = lv.getItemAtPosition(which).toString();
+                        adapter.setNames(listPresenter.getSavedList(groupText));
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(),"Group " + groupText + " added",Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -222,9 +205,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
 
     }
-
-
-
 
 
 

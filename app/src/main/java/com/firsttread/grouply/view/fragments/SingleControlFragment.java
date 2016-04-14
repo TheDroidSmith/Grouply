@@ -129,31 +129,9 @@ public class SingleControlFragment extends Fragment {
     };
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }

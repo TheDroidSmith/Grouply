@@ -1,8 +1,7 @@
 package com.firsttread.grouply.presenter;
 
-import android.content.Context;
+
 import android.util.Log;
-import android.widget.Toast;
 
 import com.firsttread.grouply.model.Group;
 import com.firsttread.grouply.model.Person;
@@ -12,11 +11,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class NameListPresenter {
+
+    public NameListPresenter(){
+
+    }
 
     public ArrayList<CharSequence> sortFirstName(ArrayList<CharSequence> nameList){
         Collections.sort(nameList, new Comparator<CharSequence>() {
@@ -59,9 +61,7 @@ public class NameListPresenter {
         return nameList;
     }
 
-    public void saveGroup(final ArrayList<CharSequence> nameList,final String groupName,Context context){
-
-        //ToDo: erase context
+    public void saveGroup(final ArrayList<CharSequence> nameList,final String groupName){
 
         Realm realm = Realm.getDefaultInstance();
 
@@ -90,6 +90,7 @@ public class NameListPresenter {
 
     public CharSequence[] getGroupList(){
 
+        //uses CharSequence array because the dialog builder requires an array
         Realm realm = Realm.getDefaultInstance();
 
         RealmQuery<Group> query = realm.where(Group.class);
@@ -102,19 +103,44 @@ public class NameListPresenter {
             groupList[i] = result.get(i).getName();
         }
 
+        realm.close();
+
         return groupList;
     }
 
-    //ToDo: remove this
-    public void deleteRealm(){
+    public ArrayList<CharSequence> getSavedList(String groupName){
+
         Realm realm = Realm.getDefaultInstance();
 
-        realm.beginTransaction();
-        realm.clear(Group.class);
-        realm.clear(Person.class);
-        realm.commitTransaction();
+
+        RealmResults<Person> people = realm.where(Person.class)
+                                            .equalTo("group",groupName)
+                                            .findAll();
+
+
+        ArrayList<CharSequence> result = new ArrayList<>();
+
+        for(Person person:people){
+            result.add(person.getName());
+        }
 
         realm.close();
+
+        return result;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
