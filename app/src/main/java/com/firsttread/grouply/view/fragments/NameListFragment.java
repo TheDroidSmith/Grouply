@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
@@ -30,7 +32,8 @@ import io.realm.RealmConfiguration;
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
         SingleControlFragment.ActionListener {
 
-    private String groupName;
+    private String groupName;// for use in saveGroup
+    private String addingGroup;// for use in addGroup
 
     private ArrayList<CharSequence> savedNames;
     private NameListPresenter listPresenter;
@@ -99,73 +102,13 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
 
-
-    public void sortLastName(){
-        adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
-    }
-
-    private void sortFirstName(){
-        adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
-    }
-
-    private void sortRandom(){
-        adapter.setNames(listPresenter.sortShuffle(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
-    }
-
-    private void sortFlip(){
-        adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
-    }
-
-    private void saveGroup(){
-        makeSaveGroupDialog();
-        if(groupName != null){
-            listPresenter.saveGroup(adapter.getNameList(),groupName,getContext());
-        }
-
-    }
-
-    private void makeSaveGroupDialog(){
-
-        //reset to null to prevent empty string
-        groupName = null;
-
-        final View v = getActivity().getLayoutInflater().inflate(R.layout.save_group_dialog,null);
-
-        new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        EditText editText = (EditText) v.findViewById(R.id.editGroup);
-                        groupName = editText.getText().toString();
-                        if(groupName.isEmpty()){
-                            Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
-                        }
-                        dialog.dismiss();
-
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        }).show();
-
-    }
-
-
     @Override
     public void onComplete(String name) {
         adapter.addNew(name);
         adapter.notifyItemInserted(adapter.getItemCount());
     }
+
+
 
     @Override
     public void retrieveAction(MyAction a) {
@@ -187,18 +130,103 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
                 break;
             case SAVE_LIST: //ToDo: refactor this to save_group
-                saveGroup();
+                makeSaveGroupDialog();
                 break;
             case ADD_GROUP:
+                //listPresenter.deleteRealm();
+                addGroup();
                 Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
                 break;
             default:
-                //same as sort first
-                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
                 sortFirstName();
+                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
                 break;
-
         }
     }
+
+    public void sortLastName(){
+        adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortFirstName(){
+        adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortRandom(){
+        adapter.setNames(listPresenter.sortShuffle(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortFlip(){
+        adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void makeSaveGroupDialog(){
+
+        //reset to null to prevent empty string
+        groupName = null;
+
+        final View v = getActivity().getLayoutInflater().inflate(R.layout.save_group_dialog,null);
+
+        new AlertDialog.Builder(getActivity())
+                .setView(v)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        EditText editText = (EditText) v.findViewById(R.id.editGroup);
+                        groupName = editText.getText().toString();
+                        if(groupName.isEmpty()){
+                            Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
+                        }else{
+                            listPresenter.saveGroup(adapter.getNameList(),groupName,getContext());
+                            Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                        }
+                        dialog.dismiss();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
+
+    }
+
+    private void addGroup(){
+        makeAddGroupDialog();
+    }
+
+    private void makeAddGroupDialog(){
+
+        CharSequence[] groupList = listPresenter.getGroupList();
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Select A Group")
+                .setItems(groupList, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(),"testing 1,2,3",Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
+
+
+    }
+
+
+
+
+
+
 
 }
