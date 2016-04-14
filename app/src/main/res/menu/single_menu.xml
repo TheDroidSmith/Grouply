@@ -10,6 +10,12 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/delete_all_remove_this"
+        android:orderInCategory="100"
+        android:title="Delete"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/import_list"
         android:orderInCategory="100"
         android:title="@string/action_import"

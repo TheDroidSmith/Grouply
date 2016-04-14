@@ -1,13 +1,16 @@
 package com.firsttread.grouply.view.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -21,10 +24,13 @@ import com.firsttread.grouply.view.adapters.NameListAdapter;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
         SingleControlFragment.ActionListener {
+
+    private String groupName;
 
     private ArrayList<CharSequence> savedNames;
     private NameListPresenter listPresenter;
@@ -39,6 +45,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listPresenter = new NameListPresenter();
+
+        RealmConfiguration config = new RealmConfiguration.Builder(getContext()).build();
+        Realm.setDefaultConfiguration(config);
 
     }
 
@@ -89,46 +98,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         super.onPause();
     }
 
-    @Override
-    public void onComplete(String name) {
-        adapter.addNew(name);
-        adapter.notifyItemInserted(adapter.getItemCount());
-    }
 
-    @Override
-    public void retrieveAction(MyAction a) {
-        switch(a){
-            case SORT_FIRST:
-                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
-                sortFirstName();
-                break;
-            case SORT_LAST:
-                Toast.makeText(getContext(),"action received2",Toast.LENGTH_LONG).show();
-                sortLastName();
-                break;
-            case SORT_RANDOM:
-                Toast.makeText(getContext(),"Randomly Sorted",Toast.LENGTH_LONG).show();
-                sortRandom();
-                break;
-            case SORT_FLIP:
-                Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
-                sortFlip();
-                break;
-            case SAVE_LIST: //ToDo: refactor this to save_group
-                Toast.makeText(getContext(),"action received5",Toast.LENGTH_LONG).show();
-                saveGroup();
-                break;
-            case ADD_GROUP:
-                Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
-                break;
-            default:
-                //same as sort first
-                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
-                sortFirstName();
-                break;
-
-        }
-    }
 
     public void sortLastName(){
         adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
@@ -151,8 +121,84 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
     private void saveGroup(){
-        //listPresenter.saveGroup(adapter.getNameList());
+        makeSaveGroupDialog();
+        if(groupName != null){
+            listPresenter.saveGroup(adapter.getNameList(),groupName,getContext());
+        }
+
     }
 
+    private void makeSaveGroupDialog(){
+
+        //reset to null to prevent empty string
+        groupName = null;
+
+        final View v = getActivity().getLayoutInflater().inflate(R.layout.save_group_dialog,null);
+
+        new AlertDialog.Builder(getActivity())
+                .setView(v)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        EditText editText = (EditText) v.findViewById(R.id.editGroup);
+                        groupName = editText.getText().toString();
+                        if(groupName.isEmpty()){
+                            Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                        }
+                        dialog.dismiss();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
+
+    }
+
+
+    @Override
+    public void onComplete(String name) {
+        adapter.addNew(name);
+        adapter.notifyItemInserted(adapter.getItemCount());
+    }
+
+    @Override
+    public void retrieveAction(MyAction a) {
+        switch(a){
+            case SORT_FIRST:
+                sortFirstName();
+                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
+                break;
+            case SORT_LAST:
+                sortLastName();
+                Toast.makeText(getContext(),"action received2",Toast.LENGTH_LONG).show();
+                break;
+            case SORT_RANDOM:
+                sortRandom();
+                Toast.makeText(getContext(),"Randomly Sorted",Toast.LENGTH_LONG).show();
+                break;
+            case SORT_FLIP:
+                sortFlip();
+                Toast.makeText(getContext(),"Order Flipped",Toast.LENGTH_LONG).show();
+                break;
+            case SAVE_LIST: //ToDo: refactor this to save_group
+                saveGroup();
+                break;
+            case ADD_GROUP:
+                Toast.makeText(getContext(),"action received6",Toast.LENGTH_LONG).show();
+                break;
+            default:
+                //same as sort first
+                Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
+                sortFirstName();
+                break;
+
+        }
+    }
 
 }

@@ -12,6 +12,9 @@ import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.fragments.AddNameDialog;
 import com.firsttread.grouply.view.fragments.NameListFragment;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class SingleGroup extends AppCompatActivity {
 
     @Override
@@ -42,11 +45,17 @@ public class SingleGroup extends AppCompatActivity {
                 //launch add dialog fragment
                 showDialog();
                 return true;
+            case R.id.delete_all_remove_this:
+                deleteRealmDB();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void deleteRealmDB(){
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.deleteRealm(config);
+    }
 
     private void showDialog(){
 

@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#5D4037</color>
     <color name="backgroundMain">#7986cb</color>
     <color name="backgroundDialog">#3F51B5</color>
+    <color name="alertText">#3F51B5</color>
 </resources>

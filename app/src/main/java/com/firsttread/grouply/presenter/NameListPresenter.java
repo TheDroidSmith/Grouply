@@ -1,7 +1,9 @@
 package com.firsttread.grouply.presenter;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firsttread.grouply.model.Person;
 
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class NameListPresenter {
 
@@ -54,7 +57,7 @@ public class NameListPresenter {
         return nameList;
     }
 
-    public void saveGroup(final ArrayList<CharSequence> nameList, final String groupName){
+    public void saveGroup(final ArrayList<CharSequence> nameList, final String groupName,Context context){
 
         Realm realm = Realm.getDefaultInstance();
 
@@ -73,6 +76,7 @@ public class NameListPresenter {
             Log.d("NameListPresenter: "
                     , "transaction is null, or the realm is opened from another thread");
         }
+
     }
 
 }
