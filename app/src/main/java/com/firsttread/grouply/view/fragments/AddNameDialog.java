@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ import android.widget.Toast;
 
 import com.firsttread.grouply.R;
 
-//ToDo: handle the names being added
+
 
 public class AddNameDialog extends DialogFragment {
 
@@ -58,6 +59,8 @@ public class AddNameDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return super.onCreateDialog(savedInstanceState);
+
+
     }
 
     @Nullable
@@ -104,6 +107,11 @@ public class AddNameDialog extends DialogFragment {
         return v;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
 
     public interface OnCompleteListener {
         void onComplete(String name);

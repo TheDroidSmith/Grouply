@@ -17,6 +17,11 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 //ToDo: add delete this group to menu
+//ToDo: restyle add person dialog
+//ToDo: make keyboard pop up when add person dialog opens
+//ToDo: add clear action to toolbar
+//ToDo: import & export
+//ToDo: add title of current group to toolbar?
 
 public class SingleGroup extends AppCompatActivity {
 
@@ -36,7 +41,6 @@ public class SingleGroup extends AppCompatActivity {
 
     }
 
-
     private void showDialog(){
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -49,6 +53,7 @@ public class SingleGroup extends AppCompatActivity {
         ft.addToBackStack(null);
 
         DialogFragment newFragment = AddNameDialog.newInstance();
+
         newFragment.show(ft,"dialog");
 
     }

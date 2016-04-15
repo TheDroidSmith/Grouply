@@ -28,7 +28,8 @@
         android:layout_alignParentTop="false"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/textView"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords"
+        android:enabled="true" />
 
     <TextView
         android:layout_width="wrap_content"

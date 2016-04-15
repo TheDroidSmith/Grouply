@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -152,7 +153,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
         final View v = getActivity().getLayoutInflater().inflate(R.layout.save_group_dialog,null);
 
-        new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -174,15 +175,18 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
-        }).show();
+        });
 
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.show();
     }
 
     private void makeAddGroupDialog(){
 
         CharSequence[] groupList = listPresenter.getGroupList();
 
-        new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Select A Group")
                 .setItems(groupList, new DialogInterface.OnClickListener() {
                     @Override
@@ -201,9 +205,10 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
-        }).show();
+        });
 
-
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
