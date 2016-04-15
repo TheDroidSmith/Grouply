@@ -10,6 +10,12 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/delete_group"
+        android:orderInCategory="98"
+        android:title="@string/action_delete_group"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/clear_groups"
         android:orderInCategory="99"
         android:title="@string/action_clear"

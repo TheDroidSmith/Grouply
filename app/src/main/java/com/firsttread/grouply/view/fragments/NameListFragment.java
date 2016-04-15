@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firsttread.grouply.presenter.NameListPresenter;
+import com.firsttread.grouply.view.SingleGroup;
 import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
 import com.firsttread.grouply.R;
@@ -185,7 +187,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     private void makeAddGroupDialog(){
 
         CharSequence[] groupList = listPresenter.getGroupList();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle("Select A Group")
                 .setItems(groupList, new DialogInterface.OnClickListener() {
@@ -209,6 +210,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
         AlertDialog dialog = builder.create();
         dialog.show();
+
     }
 
 
