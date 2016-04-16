@@ -14,4 +14,5 @@
     <string name="add_group_title">Select a Group</string>
     <string name="action_clear">Clear Saved Groups</string>
     <string name="action_delete_group">Delete Group</string>
+    <string name="button_clear">Clear</string>
 </resources>

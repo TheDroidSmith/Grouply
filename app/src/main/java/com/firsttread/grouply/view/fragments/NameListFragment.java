@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firsttread.grouply.presenter.NameListPresenter;
-import com.firsttread.grouply.view.SingleGroup;
 import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
 import com.firsttread.grouply.R;
@@ -120,6 +118,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             case ADD_GROUP:
                 makeAddGroupDialog();
                 break;
+            case CLEAR_LIST:
+                clearList();
+                break;
             default:
                 sortFirstName();
                 Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
@@ -146,6 +147,24 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     private void sortFlip(){
         adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
         adapter.notifyDataSetChanged();
+    }
+
+    private void clearList(){
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Clear Current List?")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.clearNamesList();
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void makeSaveGroupDialog(){

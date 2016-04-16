@@ -22,7 +22,8 @@ public class SingleControlFragment extends Fragment {
         SORT_RANDOM,
         SORT_FLIP,
         SAVE_LIST,
-        ADD_GROUP
+        ADD_GROUP,
+        CLEAR_LIST
     }
 
     @Override
@@ -49,15 +50,18 @@ public class SingleControlFragment extends Fragment {
         CardView sort_last_btn = (CardView) getView().findViewById(R.id.sort_last);
         CardView sort_random_btn = (CardView) getView().findViewById(R.id.sort_random);
         CardView sort_flip_btn = (CardView) getView().findViewById(R.id.sort_flip);
-        CardView sort_save_btn = (CardView) getView().findViewById(R.id.save);
-        CardView sort_print_btn = (CardView) getView().findViewById(R.id.add_group);
+        CardView save_btn = (CardView) getView().findViewById(R.id.save);
+        CardView add_group_btn = (CardView) getView().findViewById(R.id.add_group);
+        CardView clear_btn = (CardView) getView().findViewById(R.id.clear_list);
+
 
         sort_first_btn.setOnClickListener(sortByFirst);
         sort_last_btn.setOnClickListener(sortByLast);
         sort_random_btn.setOnClickListener(sortRandom);
         sort_flip_btn.setOnClickListener(sortFlip);
-        sort_save_btn.setOnClickListener(saveList);
-        sort_print_btn.setOnClickListener(addGroup);
+        save_btn.setOnClickListener(saveList);
+        add_group_btn.setOnClickListener(addGroup);
+        clear_btn.setOnClickListener(clearList);
 
     }
 
@@ -125,6 +129,13 @@ public class SingleControlFragment extends Fragment {
         @Override
         public void onClick(View v) {
             actionListener.retrieveAction(MyAction.ADD_GROUP);
+        }
+    };
+
+    private View.OnClickListener clearList = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            actionListener.retrieveAction(MyAction.CLEAR_LIST);
         }
     };
 

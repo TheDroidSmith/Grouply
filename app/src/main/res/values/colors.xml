@@ -6,4 +6,5 @@
     <color name="backgroundMain">#7986cb</color>
     <color name="backgroundDialog">#3F51B5</color>
     <color name="alertText">#3F51B5</color>
+    <color name="button_red">#F44336</color>
 </resources>

@@ -24,7 +24,6 @@ import io.realm.RealmResults;
 
 //ToDo: add delete this group to menu
 //ToDo: add clear action to toolbar
-//ToDo: import & export
 
 public class SingleGroup extends AppCompatActivity {
 
@@ -114,7 +113,6 @@ public class SingleGroup extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.single_menu,menu);
         return true;
     }
-
 
 
     @Override

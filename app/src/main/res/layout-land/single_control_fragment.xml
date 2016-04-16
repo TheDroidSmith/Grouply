@@ -4,6 +4,8 @@
     android:layout_height="match_parent" android:background="#303f9f"
     android:padding="16dp">
 
+
+
     <!-- left layout -->
     <LinearLayout
         android:id="@+id/left_layout"
@@ -25,9 +27,7 @@
             android:clickable="true"
             card_view:cardBackgroundColor="#5c6bc0"
             card_view:cardElevation="@dimen/cardview_default_elevation"
-            card_view:cardCornerRadius="6dp"
-            android:layout_toLeftOf="@+id/sort_last"
-            android:layout_alignBaseline="@+id/sort_last">
+            card_view:cardCornerRadius="6dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -81,6 +81,39 @@
 
         </android.support.v7.widget.CardView>
 
+        <!-- clear list -->
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/clear_list"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:stateListAnimator="@animator/lift_on_touch"
+            android:clickable="true"
+            card_view:cardBackgroundColor="@color/button_red"
+            card_view:cardElevation="@dimen/cardview_default_elevation"
+            card_view:cardCornerRadius="6dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/button_clear"
+                    android:textColor="#ffffff"
+                    android:id="@+id/text_clear"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
         <!-- save -->
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -88,7 +121,7 @@
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             card_view:cardBackgroundColor="#5c6bc0"
@@ -115,6 +148,8 @@
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
+
+
 
     </LinearLayout>
 
@@ -200,7 +235,7 @@
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="90dp"
             android:stateListAnimator="@animator/lift_on_touch"
             android:clickable="true"
             card_view:cardBackgroundColor="#5c6bc0"
@@ -228,9 +263,6 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>
