@@ -2,6 +2,7 @@ package com.firsttread.grouply.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,6 +32,10 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
         return names;
     }
 
+    public void removeFromList(CharSequence deletedName){
+        names.remove(deletedName);
+    }
+
     public void setNames(ArrayList<CharSequence> names) {
         this.names = names;
     }
@@ -47,6 +52,9 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
     @Override
     public NameListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.name_card,parent,false);
+
+
+
         return new ViewHolder(v);
     }
 
@@ -59,11 +67,21 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
         private final TextView cardText;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View card) {
+            super(card);
 
             //ToDo: going to probably add onTouch slide or hold deletes
             cardText = (TextView) itemView.findViewById(R.id.cardText);
+
+            card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+
+                }
+            });
+
         }
 
         public TextView getCardText(){

@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firsttread.grouply.presenter.NameListPresenter;
@@ -36,10 +38,34 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     protected NameListAdapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
 
+    ItemTouchHelper.SimpleCallback touchCallback =
+            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            String deletedName = ((TextView)viewHolder.
+                                    itemView.
+                                    findViewById(R.id.cardText)).getText().toString();
+
+            adapter.removeFromList(deletedName);
+            adapter.notifyDataSetChanged();
+        }
+    };
+
+    ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listPresenter = new NameListPresenter();
+
+
+
     }
 
     @Override
@@ -76,6 +102,8 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
         adapter = new NameListAdapter();
         recyclerView.setAdapter(adapter);
+
+        touchHelper.attachToRecyclerView(recyclerView);
 
 
         return rootView;

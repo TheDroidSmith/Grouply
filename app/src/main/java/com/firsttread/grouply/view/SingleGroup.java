@@ -22,9 +22,6 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-//ToDo: add delete this group to menu
-//ToDo: add clear action to toolbar
-
 public class SingleGroup extends AppCompatActivity {
 
     @Override
@@ -33,7 +30,6 @@ public class SingleGroup extends AppCompatActivity {
         setContentView(R.layout.activity_single_group);
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
-
     }
 
     @Override
