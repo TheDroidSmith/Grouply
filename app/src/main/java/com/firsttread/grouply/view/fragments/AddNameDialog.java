@@ -7,31 +7,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.firsttread.grouply.R;
-
-
 
 public class AddNameDialog extends DialogFragment {
 
     private OnCompleteListener mListener;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final int DIALOG_WIDTH = 1300;
+    @SuppressWarnings("FieldCanBeLocal")
     private final int DIALOG_HEIGHT = 1100;
 
     public static AddNameDialog newInstance(){
@@ -46,11 +39,8 @@ public class AddNameDialog extends DialogFragment {
 
     @Override
     public void onResume() {
-        int width = DIALOG_WIDTH;
-        int height = DIALOG_HEIGHT;
-
         Window window = getDialog().getWindow();
-        window.setLayout(width, height);
+        window.setLayout(DIALOG_WIDTH, DIALOG_HEIGHT);
         window.setGravity(Gravity.CENTER);
         super.onResume();
     }

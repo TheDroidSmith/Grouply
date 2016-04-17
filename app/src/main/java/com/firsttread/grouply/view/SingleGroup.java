@@ -22,12 +22,14 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class SingleGroup extends AppCompatActivity {
+public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_group);
+
+        //sets up a realm and set is as default
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
     }
@@ -38,7 +40,9 @@ public class SingleGroup extends AppCompatActivity {
 
     }
 
-    private void showDialog(){
+
+    @Override
+    public void showDialog(){
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
@@ -55,6 +59,7 @@ public class SingleGroup extends AppCompatActivity {
 
     }
 
+    @Override
     public void clearRealm(){
         Realm realm = Realm.getDefaultInstance();
 
@@ -66,7 +71,8 @@ public class SingleGroup extends AppCompatActivity {
         realm.close();
     }
 
-    private void deleteGroup(){
+    @Override
+    public void deleteGroup(){
 
         Realm realm = Realm.getDefaultInstance();
 
@@ -104,12 +110,12 @@ public class SingleGroup extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.single_menu,menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

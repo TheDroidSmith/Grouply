@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
-        SingleControlFragment.ActionListener {
+        SingleControlFragment.ActionListener, ActionMethodsInterface {
 
     private String groupName;// for use in saveGroup
 
@@ -38,6 +38,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     protected NameListAdapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
 
+    //provides slide animation for recycler view
     ItemTouchHelper.SimpleCallback touchCallback =
             new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
@@ -157,27 +158,33 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
 
+    //action methods
+    @Override
     public void sortLastName(){
         adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
 
-    private void sortFirstName(){
+    @Override
+    public void sortFirstName(){
         adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
 
-    private void sortRandom(){
+    @Override
+    public void sortRandom(){
         adapter.setNames(listPresenter.sortShuffle(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
 
-    private void sortFlip(){
+    @Override
+    public void sortFlip(){
         adapter.setNames(listPresenter.sortFlip(adapter.getNameList()));
         adapter.notifyDataSetChanged();
     }
 
-    private void clearList(){
+    @Override
+    public void clearList(){
         new AlertDialog.Builder(getActivity())
                 .setTitle("Clear Current List?")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -195,7 +202,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 }).show();
     }
 
-    private void makeSaveGroupDialog(){
+    //saves group to realm
+    @Override
+    public void makeSaveGroupDialog(){
 
         //reset to null to prevent empty string
         groupName = null;
@@ -231,7 +240,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         dialog.show();
     }
 
-    private void makeAddGroupDialog(){
+    //loads group form realm
+    @Override
+    public void makeAddGroupDialog(){
 
         CharSequence[] groupList = listPresenter.getGroupList();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
@@ -259,6 +270,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         dialog.show();
 
     }
+
 
 
 
