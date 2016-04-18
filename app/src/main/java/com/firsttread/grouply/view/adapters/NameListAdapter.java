@@ -13,7 +13,9 @@ import java.util.ArrayList;
 
 public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHolder> {
 
+
     private ArrayList<CharSequence> names;
+
 
     public NameListAdapter(ArrayList<CharSequence> savedNames){
             names = savedNames;
@@ -22,6 +24,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
     public NameListAdapter(){
         names = new ArrayList<>();
     }
+
 
     public void addNew(String name){
         names.add(name);
@@ -43,6 +46,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
         names.clear();
     }
 
+
     @Override
     public void onBindViewHolder(NameListAdapter.ViewHolder holder, int position) {
         holder.getCardText().setText(names.get(position));
@@ -59,6 +63,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
     public int getItemCount() {
         return names.size();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 

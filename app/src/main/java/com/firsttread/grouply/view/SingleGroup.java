@@ -152,9 +152,4 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
 }

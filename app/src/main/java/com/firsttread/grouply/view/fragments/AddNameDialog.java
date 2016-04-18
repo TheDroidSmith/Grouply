@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ public class AddNameDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         View v = inflater.inflate(R.layout.add_name_dialog,container,false);
 
         final EditText first_txt = (EditText) v.findViewById(R.id.edit_first);
@@ -70,26 +73,34 @@ public class AddNameDialog extends DialogFragment {
         done_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstName = first_txt.getText().toString();
-                String lastName = last_txt.getText().toString();
+                String firstName = first_txt.getText().toString().trim();
+                String lastName = last_txt.getText().toString().trim();
 
+                //keyboard is forced opened and closed.
+                //could not get keyboard to open normally on dialog launch.
+                //it might be due to the onCompleteListener.
                 if(firstName.isEmpty()){
-                    Toast.makeText(getContext(),"A first name is required",Toast.LENGTH_LONG).show();
+                    ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
+                    dismiss();
+                    Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
                 }else{
                     if(lastName.isEmpty()){
                         listenerRef.onComplete(firstName);
-                        dismiss();
                     }else{
                         listenerRef.onComplete(firstName + " " + lastName);
-                        dismiss();
                     }
+                    ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
+                    dismiss();
                 }
             }
         });
-
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
                 dismiss();
             }
         });
