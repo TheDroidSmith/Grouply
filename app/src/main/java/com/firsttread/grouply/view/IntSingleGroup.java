@@ -8,4 +8,6 @@ public interface IntSingleGroup {
 
     void deleteGroup();
 
+    void changeTitle(String newTitle);
+
 }

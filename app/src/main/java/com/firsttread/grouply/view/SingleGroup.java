@@ -43,7 +43,6 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     @Override
     public void showDialog(){
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
 
@@ -52,11 +51,8 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
         }
 
         ft.addToBackStack(null);
-
         DialogFragment newFragment = AddNameDialog.newInstance();
-
         newFragment.show(ft,"dialog");
-
     }
 
     @Override
@@ -125,6 +121,10 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     }
 
+    @Override
+    public void changeTitle(String newTitle) {
+        setTitle(newTitle);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

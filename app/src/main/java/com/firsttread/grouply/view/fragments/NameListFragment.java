@@ -18,13 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firsttread.grouply.presenter.NameListPresenter;
+import com.firsttread.grouply.view.SingleGroup;
 import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
 
 import com.firsttread.grouply.R;
 import com.firsttread.grouply.view.adapters.NameListAdapter;
 
 import java.util.ArrayList;
-
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
         SingleControlFragment.ActionListener, ActionMethodsInterface {
@@ -192,6 +192,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.clearNamesList();
                         adapter.notifyDataSetChanged();
+                        ((SingleGroup)getActivity()).changeTitle("Grouply");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -223,6 +224,8 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                             Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
                         }else{
                             listPresenter.saveGroup(adapter.getNameList(),groupName);
+
+                            ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
                             Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
                         }
                         dialog.dismiss();
@@ -256,6 +259,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         String groupText = lv.getItemAtPosition(which).toString();
                         adapter.setNames(listPresenter.getSavedList(groupText));
                         adapter.notifyDataSetChanged();
+                        ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupText);
                         Toast.makeText(getContext(),"Group " + groupText + " added",Toast.LENGTH_LONG).show();
                     }
                 })
@@ -270,9 +274,5 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         dialog.show();
 
     }
-
-
-
-
 
 }
