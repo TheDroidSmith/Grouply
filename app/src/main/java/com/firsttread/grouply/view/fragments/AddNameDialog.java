@@ -103,6 +103,7 @@ public class AddNameDialog extends DialogFragment {
 
     }
 
+    //NameListFragment uses this to get the string from this dialog
     public interface OnCompleteListener {
         void onComplete(String name);
     }
