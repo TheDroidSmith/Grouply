@@ -21,10 +21,4 @@
         android:title="@string/action_clear"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/import_list"
-        android:orderInCategory="100"
-        android:title="@string/action_import"
-        app:showAsAction="never"/>
-
 </menu>

@@ -61,14 +61,29 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     @Override
     public void clearRealm(){
-        Realm realm = Realm.getDefaultInstance();
 
-        realm.beginTransaction();
-        realm.clear(Group.class);
-        realm.clear(Person.class);
-        realm.commitTransaction();
+        new AlertDialog.Builder(this)
+                .setTitle("Delete All Saved Groups?")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Realm realm = Realm.getDefaultInstance();
 
-        realm.close();
+                        realm.beginTransaction();
+                        realm.clear(Group.class);
+                        realm.clear(Person.class);
+                        realm.commitTransaction();
+                        realm.close();
+                        Toast.makeText(SingleGroup.this,"All Groups Deleted",Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
     }
 
     @Override
@@ -100,8 +115,8 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
                         realm.beginTransaction();
                         result.first().removeFromRealm();
                         realm.commitTransaction();
-                        Toast.makeText(SingleGroup.this,"Group Deleted",Toast.LENGTH_LONG).show();
                         realm.close();
+                        Toast.makeText(SingleGroup.this,"Group Deleted",Toast.LENGTH_LONG).show();
                     }
                 }).show();
 

@@ -1,16 +1,14 @@
 <resources>
     <string name="app_name">Grouply</string>
     <string name="single_act_name">Single Group</string>
-    <string name="multi_act_name">Multi Group</string>
     <string name="action_add">Add</string>
     <string name="action_import">Import List</string>
     <string name="button_save">Save</string>
-    <string name="button_print">Print</string>
     <string name="button_flip">Flip Order</string>
     <string name="button_random">Random</string>
     <string name="button_last">Last Name</string>
     <string name="button_first">First Name</string>
-    <string name="button_add_group">Add Group</string>
+    <string name="button_add_group">Load Group</string>
     <string name="add_group_title">Select a Group</string>
     <string name="action_clear">Clear Saved Groups</string>
     <string name="action_delete_group">Delete Group</string>

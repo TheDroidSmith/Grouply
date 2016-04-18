@@ -5,7 +5,6 @@
     android:padding="16dp">
 
 
-
     <!-- left layout -->
     <LinearLayout
         android:id="@+id/left_layout"
@@ -126,9 +125,7 @@
             android:clickable="true"
             card_view:cardBackgroundColor="#5c6bc0"
             card_view:cardElevation="@dimen/cardview_default_elevation"
-            card_view:cardCornerRadius="6dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/add_group">
+            card_view:cardCornerRadius="6dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -202,6 +199,7 @@
             android:id="@+id/sort_flip"
             android:layout_gravity="center"
             android:layout_width="match_parent"
+            android:stateListAnimator="@animator/lift_on_touch"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:clickable="true"
