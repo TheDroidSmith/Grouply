@@ -6,6 +6,7 @@
 
     <dimen name="button_text_size">11sp</dimen>
 
+    <!-- ToDo: adjust dimens for email button addition -->
     <!-- control fragment LANDSCAPE button margins. -->
     <dimen name="load_group_button_top_margin">45dp</dimen>
     <dimen name="save_button_top_margin">15dp</dimen>

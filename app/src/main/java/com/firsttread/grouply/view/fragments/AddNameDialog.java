@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.firsttread.grouply.R;
 
+//ToDo: dialog fragment screen size
+
 public class AddNameDialog extends DialogFragment {
 
     private OnCompleteListener mListener;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#303f9f"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303f9f"
     android:padding="16dp">
-
-    <!-- ToDo: make seperate value folders for dimen based on screen size -->
 
     <!-- sort first -->
     <android.support.v7.widget.CardView
@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:stateListAnimator="@animator/lift_on_touch"
         android:clickable="true"
         card_view:cardBackgroundColor="#5c6bc0"
@@ -138,6 +138,39 @@
 
     </android.support.v7.widget.CardView>
 
+    <!-- email group -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/email_group"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:stateListAnimator="@animator/lift_on_touch"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        card_view:cardBackgroundColor="#5c6bc0"
+        card_view:cardElevation="@dimen/cardview_default_elevation"
+        card_view:cardCornerRadius="6dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/button_text_size"
+                android:text="@string/button_email"
+                android:textColor="#ffffff"
+                android:id="@+id/text_email"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
     <!-- clear list -->
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -178,7 +211,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:stateListAnimator="@animator/lift_on_touch"
         android:clickable="true"
         card_view:cardBackgroundColor="#5c6bc0"

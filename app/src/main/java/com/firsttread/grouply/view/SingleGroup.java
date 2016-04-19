@@ -121,6 +121,7 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     }
 
+
     @Override
     public void changeTitle(String newTitle) {
         setTitle(newTitle);

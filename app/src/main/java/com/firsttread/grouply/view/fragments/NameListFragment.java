@@ -1,6 +1,8 @@
 package com.firsttread.grouply.view.fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -150,6 +152,9 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             case CLEAR_LIST:
                 clearList();
                 break;
+            case EMAIL_GROUP:
+                makeEmailDialog();
+                break;
             default:
                 sortFirstName();
                 Toast.makeText(getContext(),"Sorted by Fist Name",Toast.LENGTH_LONG).show();
@@ -201,6 +206,24 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         dialog.dismiss();
                     }
                 }).show();
+    }
+
+    @Override
+    public void makeEmailDialog() {
+
+        String emailBody = "";
+        ArrayList<CharSequence> nameList = adapter.getNameList();
+
+        for(CharSequence name:nameList){
+            emailBody += name + "\n";
+        }
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+                Uri.fromParts("mailto","",null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,"A list made with Grouply");
+        emailIntent.putExtra(Intent.EXTRA_TEXT,emailBody);
+        startActivity(Intent.createChooser(emailIntent,"Send email..."));
+
     }
 
     //saves group to realm

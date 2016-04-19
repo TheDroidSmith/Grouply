@@ -23,7 +23,8 @@ public class SingleControlFragment extends Fragment {
         SORT_FLIP,
         SAVE_LIST,
         ADD_GROUP,
-        CLEAR_LIST
+        CLEAR_LIST,
+        EMAIL_GROUP
     }
 
     @Override
@@ -53,6 +54,7 @@ public class SingleControlFragment extends Fragment {
         CardView save_btn = (CardView) getView().findViewById(R.id.save);
         CardView add_group_btn = (CardView) getView().findViewById(R.id.add_group);
         CardView clear_btn = (CardView) getView().findViewById(R.id.clear_list);
+        CardView email_btn = (CardView) getView().findViewById(R.id.email_group);
 
 
         sort_first_btn.setOnClickListener(sortByFirst);
@@ -62,6 +64,7 @@ public class SingleControlFragment extends Fragment {
         save_btn.setOnClickListener(saveList);
         add_group_btn.setOnClickListener(addGroup);
         clear_btn.setOnClickListener(clearList);
+        email_btn.setOnClickListener(emailGroup);
 
     }
 
@@ -136,6 +139,13 @@ public class SingleControlFragment extends Fragment {
         @Override
         public void onClick(View v) {
             actionListener.retrieveAction(MyAction.CLEAR_LIST);
+        }
+    };
+
+    private View.OnClickListener emailGroup = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            actionListener.retrieveAction(MyAction.EMAIL_GROUP);
         }
     };
 
