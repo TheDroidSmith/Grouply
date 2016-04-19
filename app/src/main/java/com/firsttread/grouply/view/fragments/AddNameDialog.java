@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,8 @@ public class AddNameDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         View v = inflater.inflate(R.layout.add_name_dialog,container,false);
 
@@ -70,6 +72,40 @@ public class AddNameDialog extends DialogFragment {
         Button cancel_btn = (Button) v.findViewById(R.id.button_cancel);
 
         final OnCompleteListener listenerRef = this.mListener;
+
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                String newName = editText.getText().toString().trim();
+
+                if(event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode){
+
+                        case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            //keyboard is forced opened and closed.
+                            //could not get keyboard to open normally on dialog launch.
+                            //it might be due to the onCompleteListener.
+                            if(newName.isEmpty()){
+                                ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                                dismiss();
+                                Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
+                            }else{
+                                listenerRef.onComplete(newName);
+
+                                ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                                dismiss();
+                            }
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         done_btn.setOnClickListener(new View.OnClickListener() {
             @Override

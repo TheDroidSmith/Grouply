@@ -29,7 +29,7 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_group);
 
-        //sets up a realm and set is as default
+        //sets up a realm and sets is as default
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
     }
@@ -40,6 +40,11 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 
     @Override
     public void showDialog(){
