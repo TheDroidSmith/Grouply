@@ -14,4 +14,8 @@
     <string name="action_delete_group">Delete Group</string>
     <string name="button_clear">Clear</string>
     <string name="button_email">Email</string>
+    <string name="text_enter_name">Enter Name</string>
+    <string name="button_done">Done</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="enter_name_reminder">Use single space to separate first and last name.</string>
 </resources>

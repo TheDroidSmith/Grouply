@@ -211,18 +211,22 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     @Override
     public void makeEmailDialog() {
 
-        String emailBody = "";
-        ArrayList<CharSequence> nameList = adapter.getNameList();
+        if(adapter.getNameList().size() <= 0){
+            Toast.makeText(getContext(),"Send Email Failed: Empty Group",Toast.LENGTH_LONG).show();
+        }else{
+            String emailBody = "";
+            ArrayList<CharSequence> nameList = adapter.getNameList();
 
-        for(CharSequence name:nameList){
-            emailBody += name + "\n";
+            for(CharSequence name:nameList){
+                emailBody += name + "\n";
+            }
+
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+                    Uri.fromParts("mailto","",null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT,"A list made with Grouply");
+            emailIntent.putExtra(Intent.EXTRA_TEXT,emailBody);
+            startActivity(Intent.createChooser(emailIntent,"Send email..."));
         }
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
-                Uri.fromParts("mailto","",null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,"A list made with Grouply");
-        emailIntent.putExtra(Intent.EXTRA_TEXT,emailBody);
-        startActivity(Intent.createChooser(emailIntent,"Send email..."));
 
     }
 

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="First Name"
+        android:text="@string/text_enter_name"
         android:textColor="#ffffff"
         android:id="@+id/textView"
         android:layout_centerHorizontal="true"
@@ -26,7 +26,7 @@
         android:textSize="28sp"
         android:layout_alignParentBottom="false"
         android:layout_alignParentTop="false"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/textView"
         android:inputType="textCapWords"
         android:enabled="true" />
@@ -34,42 +34,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Last Name"
-        android:id="@+id/textView2"
-        android:textColor="#ffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edit_first"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="(Optional)"
-        android:id="@+id/textView4"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_alignBaseline="@+id/textView2"
-        android:textColor="#ff0000"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp" />
+        android:text="@string/enter_name_reminder"
+        android:textColor="@color/text_red"
+        android:id="@+id/text_reminder"
+        android:layout_below="@+id/edit_first"
+        android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_last"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="28sp"
-        android:layout_marginTop="8dp"
-        android:inputType="textCapWords" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
+        android:text="@string/button_done"
         android:id="@+id/button_done"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="#ffffff"
@@ -77,7 +53,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:layout_below="@+id/edit_last"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp" />
@@ -85,7 +60,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:text="@string/button_cancel"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="#ffffff"
         android:id="@+id/button_cancel"
@@ -95,8 +70,9 @@
         android:clickable="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@+id/edit_last" />
+        android:layout_marginBottom="8dp" />
+
+
 
 
 </RelativeLayout>

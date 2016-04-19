@@ -64,8 +64,7 @@ public class AddNameDialog extends DialogFragment {
 
         View v = inflater.inflate(R.layout.add_name_dialog,container,false);
 
-        final EditText first_txt = (EditText) v.findViewById(R.id.edit_first);
-        final EditText last_txt = (EditText) v.findViewById(R.id.edit_last);
+        final EditText editText = (EditText) v.findViewById(R.id.edit_first);
 
         Button done_btn = (Button) v.findViewById(R.id.button_done);
         Button cancel_btn = (Button) v.findViewById(R.id.button_cancel);
@@ -75,25 +74,21 @@ public class AddNameDialog extends DialogFragment {
         done_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstName = first_txt.getText().toString().trim();
-                String lastName = last_txt.getText().toString().trim();
+                String newName = editText.getText().toString().trim();
 
                 //keyboard is forced opened and closed.
                 //could not get keyboard to open normally on dialog launch.
                 //it might be due to the onCompleteListener.
-                if(firstName.isEmpty()){
+                if(newName.isEmpty()){
                     ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
+                            .hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dismiss();
                     Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
                 }else{
-                    if(lastName.isEmpty()){
-                        listenerRef.onComplete(firstName);
-                    }else{
-                        listenerRef.onComplete(firstName + " " + lastName);
-                    }
+                    listenerRef.onComplete(newName);
+
                     ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
+                            .hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dismiss();
                 }
             }
@@ -102,7 +97,7 @@ public class AddNameDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                        .hideSoftInputFromWindow(first_txt.getWindowToken(), 0);
+                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 dismiss();
             }
         });
