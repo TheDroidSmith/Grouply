@@ -131,7 +131,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 break;
             case SORT_LAST:
                 sortLastName();
-                Toast.makeText(getContext(),"action received2",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Sorted by Last Name",Toast.LENGTH_LONG).show();
                 break;
             case SORT_RANDOM:
                 sortRandom();
