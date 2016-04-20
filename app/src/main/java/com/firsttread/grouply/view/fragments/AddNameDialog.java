@@ -64,6 +64,8 @@ public class AddNameDialog extends DialogFragment {
         ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
+        getDialog().setCanceledOnTouchOutside(false);
+
         View v = inflater.inflate(R.layout.add_name_dialog,container,false);
 
         final EditText editText = (EditText) v.findViewById(R.id.edit_first);

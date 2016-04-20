@@ -39,7 +39,8 @@
         android:textColor="@color/text_red"
         android:id="@+id/text_reminder"
         android:layout_below="@+id/edit_first"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp" />
 
 
     <Button
