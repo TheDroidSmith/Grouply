@@ -1,16 +1,18 @@
 package com.firsttread.grouply.view.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ import com.firsttread.grouply.view.adapters.NameListAdapter;
 import java.util.ArrayList;
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
-        SingleControlFragment.ActionListener, ActionMethodsInterface {
+        SingleControlFragment.ActionListener, IntNameListFragment {
 
     private String groupName;// for use in saveGroup
 
@@ -67,9 +69,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listPresenter = new NameListPresenter();
-
-
-
     }
 
     @Override
@@ -82,6 +81,27 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
             recyclerView.setAdapter(adapter);
         }
 
+        /*Restores the list of names if the back button was pressed and the app was closed.
+        * It stores a boolean to check if there was anything to save. The boolean
+        * is set to false after every check and the temporary data/realm entries are deleted after
+        * every query to prevent unwanted saves.*/
+        SharedPreferences sharedPref = getActivity()
+                .getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+
+        boolean doRestore = sharedPref.getBoolean(getString(R.string.does_save_exist),false);
+
+        if(doRestore){
+            adapter.setNames(listPresenter.restoreGroup());
+            adapter.notifyDataSetChanged();
+            listPresenter.deleteTempGroup();
+        }
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.does_save_exist),false);
+        editor.apply();
+
+
+
     }
 
     @Override
@@ -91,6 +111,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         savedNames = adapter.getNameList();
         outState.putCharSequenceArrayList("nameList", savedNames);
     }
+
 
 
     @Nullable
@@ -252,10 +273,16 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         if(groupName.isEmpty()){
                             Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
                         }else{
-                            listPresenter.saveGroup(adapter.getNameList(),groupName);
+                            if(adapter.getNameList().isEmpty()){
+                                Toast.makeText(getContext(),"Save Failed: Group Empty!",Toast.LENGTH_LONG).show();
+                                ((SingleGroup)getActivity()).changeTitle("Grouply");
+                                dialog.dismiss();
+                            }else{
+                                listPresenter.saveGroup(adapter.getNameList(),groupName);
 
-                            ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
-                            Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                                ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
+                                Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                            }
                         }
                         dialog.dismiss();
 
@@ -263,9 +290,34 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                dialog.dismiss();
             }
-        });
+        }).setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                        if(event.getAction() == KeyEvent.ACTION_DOWN){
+
+                            switch (keyCode){
+                                case KeyEvent.KEYCODE_ENTER:
+                                    EditText editText = (EditText) v.findViewById(R.id.editGroup);
+                                    groupName = editText.getText().toString();
+                                    if(groupName.isEmpty()){
+                                        Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
+                                    }else{
+                                        listPresenter.saveGroup(adapter.getNameList(),groupName);
+                                        ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
+
+                                        Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                                    }
+                                    dialog.dismiss();
+                                default:
+                                    break;
+                            }
+                        }
+                        return false;
+                    }
+                });
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -304,4 +356,22 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
     }
 
+    @Override
+    public int saveOnPressBackButton() {
+        if(adapter.getNameList().isEmpty()){
+            return -1;
+        }else{
+            listPresenter.saveTempGroup(adapter.getNameList());
+
+            SharedPreferences sharedPref = getActivity()
+                    .getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(getString(R.string.does_save_exist),true);
+            editor.apply();
+            return 1;
+        }
+
+
+    }
 }

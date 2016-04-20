@@ -18,4 +18,7 @@
     <string name="button_done">Done</string>
     <string name="button_cancel">Cancel</string>
     <string name="enter_name_reminder">Use single space if adding last name.</string>
+    <string name="preference_file_key">com.firsttread.grouply.presenter.PREFERENCE_KEY</string>
+    <string name="does_save_exist">saveExists</string>
+    <string name="act_title">activity_title</string>
 </resources>

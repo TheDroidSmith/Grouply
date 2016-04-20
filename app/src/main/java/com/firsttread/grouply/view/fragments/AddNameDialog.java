@@ -19,8 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firsttread.grouply.R;
+import com.firsttread.grouply.view.SingleGroup;
 
-//ToDo: dialog fragment screen size
 
 public class AddNameDialog extends DialogFragment {
 
@@ -80,31 +80,38 @@ public class AddNameDialog extends DialogFragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 String newName = editText.getText().toString().trim();
+                if(newName.isEmpty()){
+                    ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    dismiss();
+                    Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
+                }else{
+                    ((SingleGroup)getActivity()).changeTitle("Grouply: NOT SAVED!");
+                    if(event.getAction() == KeyEvent.ACTION_DOWN){
+                        switch (keyCode){
 
-                if(event.getAction() == KeyEvent.ACTION_DOWN){
-                    switch (keyCode){
+                            case KeyEvent.KEYCODE_ENTER:
+                                //keyboard is forced opened and closed.
+                                //could not get keyboard to open normally on dialog launch.
+                                //it might be due to the onCompleteListener.
+                                if(newName.isEmpty()){
+                                    ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                            .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                                    dismiss();
+                                    Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
+                                }else{
+                                    listenerRef.onComplete(newName);
 
-                        case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                        case KeyEvent.KEYCODE_ENTER:
-                            //keyboard is forced opened and closed.
-                            //could not get keyboard to open normally on dialog launch.
-                            //it might be due to the onCompleteListener.
-                            if(newName.isEmpty()){
-                                ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                                dismiss();
-                                Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
-                            }else{
-                                listenerRef.onComplete(newName);
-
-                                ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                                        .hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                                dismiss();
-                            }
-                        default:
-                            break;
+                                    ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                            .hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                                    dismiss();
+                                }
+                            default:
+                                break;
+                        }
                     }
                 }
+
                 return false;
             }
         });
@@ -123,6 +130,7 @@ public class AddNameDialog extends DialogFragment {
                     dismiss();
                     Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
                 }else{
+                    ((SingleGroup)getActivity()).changeTitle("Grouply: NOT SAVED!");
                     listenerRef.onComplete(newName);
 
                     ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
@@ -139,6 +147,8 @@ public class AddNameDialog extends DialogFragment {
                 dismiss();
             }
         });
+
+
 
         return v;
     }

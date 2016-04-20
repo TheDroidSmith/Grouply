@@ -35,12 +35,7 @@ public class SingleControlFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.single_control_fragment,container,false);
-
-
-
-        return rootView;
+        return  inflater.inflate(R.layout.single_control_fragment,container,false);
     }
 
     @Override
@@ -74,7 +69,7 @@ public class SingleControlFragment extends Fragment {
     }
 
 
-    //interface for NameListFragment to listen for button clicks and their acctions
+    //Interface for NameListFragment to listen for button clicks and their actions
     public interface ActionListener {
         void retrieveAction(MyAction a);
     }

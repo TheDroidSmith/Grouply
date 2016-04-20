@@ -1,6 +1,6 @@
 package com.firsttread.grouply.view.fragments;
 
-public interface ActionMethodsInterface {
+public interface IntNameListFragment {
 
     void sortLastName();
 
@@ -17,5 +17,7 @@ public interface ActionMethodsInterface {
     void makeAddGroupDialog();
 
     void makeEmailDialog();
+
+    int saveOnPressBackButton();
 
 }

@@ -1,6 +1,8 @@
 package com.firsttread.grouply.view;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +18,7 @@ import com.firsttread.grouply.R;
 import com.firsttread.grouply.model.Group;
 import com.firsttread.grouply.model.Person;
 import com.firsttread.grouply.view.fragments.AddNameDialog;
+import com.firsttread.grouply.view.fragments.NameListFragment;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -32,18 +35,36 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
         //sets up a realm and sets is as default
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
+
+        SharedPreferences sharedPref =
+                getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        String actTitle = sharedPref.getString(getString(R.string.act_title),"Grouply");
+        setTitle(actTitle);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
+        /*to maintain list of names on back press*/
+
+        NameListFragment frag =
+                (NameListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
+
+        if(frag.saveOnPressBackButton() > 0){
+            SharedPreferences sharedPref =
+                    getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.act_title),getTitle().toString());
+            editor.apply();
+        }
     }
 
     @Override
@@ -75,6 +96,7 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
                         realm.clear(Person.class);
                         realm.commitTransaction();
                         realm.close();
+
                         Toast.makeText(SingleGroup.this,"All Groups Deleted",Toast.LENGTH_LONG).show();
                     }
                 })
@@ -109,14 +131,30 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
                         Realm realm = Realm.getDefaultInstance();
 
                         ListView lv = ((AlertDialog)dialog).getListView();
-                        String groupText = lv.getItemAtPosition(which).toString();
-                        RealmResults<Group> result = realm.where(Group.class)
-                                                            .equalTo("name",groupText)
+                        String groupName = lv.getItemAtPosition(which).toString();
+                        RealmResults<Group> groupResult = realm.where(Group.class)
+                                                            .equalTo("name",groupName)
                                                             .findAll();
-                        realm.beginTransaction();
-                        result.first().removeFromRealm();
-                        realm.commitTransaction();
+
+                        if(!groupResult.isEmpty()){
+                            realm.beginTransaction();
+                            groupResult.first().removeFromRealm();
+                            realm.commitTransaction();
+
+                            RealmResults<Person> personResult = realm.where(Person.class)
+                                    .equalTo("group",groupName)
+                                    .findAll();
+
+                            int resultSize = personResult.size()-1;
+                            realm.beginTransaction();
+                            for(int i=resultSize; i>=0; i--){
+                                personResult.get(i).removeFromRealm();
+                            }
+                            realm.commitTransaction();
+                        }
+
                         realm.close();
+
                         Toast.makeText(SingleGroup.this,"Group Deleted",Toast.LENGTH_LONG).show();
                     }
                 }).show();
@@ -127,6 +165,7 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
     }
 
 
+    //gives ability to change title from fragment
     @Override
     public void changeTitle(String newTitle) {
         setTitle(newTitle);

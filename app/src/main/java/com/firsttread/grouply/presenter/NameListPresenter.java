@@ -1,8 +1,5 @@
 package com.firsttread.grouply.presenter;
 
-
-import android.util.Log;
-
 import com.firsttread.grouply.model.Group;
 import com.firsttread.grouply.model.Person;
 
@@ -20,6 +17,8 @@ public class NameListPresenter {
 
     }
 
+
+    //sorting action methods
     public ArrayList<CharSequence> sortFirstName(ArrayList<CharSequence> nameList){
         Collections.sort(nameList, new Comparator<CharSequence>() {
             @Override
@@ -61,6 +60,8 @@ public class NameListPresenter {
         return nameList;
     }
 
+
+    //save and load methods
     public void saveGroup(final ArrayList<CharSequence> nameList,final String groupName){
 
         Realm realm = Realm.getDefaultInstance();
@@ -76,17 +77,11 @@ public class NameListPresenter {
             personObject.setName(name.toString());
             personObject.setGroup(groupName);
         }
+
         realm.commitTransaction();
-
-        RealmResults<Group> groups = realm.allObjects(Group.class);
-        for(Group group:groups){
-            Log.d("Result Dump: ",group.getName());
-        }
-
         realm.close();
 
     }
-
 
     public CharSequence[] getGroupList(){
 
@@ -112,11 +107,9 @@ public class NameListPresenter {
 
         Realm realm = Realm.getDefaultInstance();
 
-
         RealmResults<Person> people = realm.where(Person.class)
-                                            .equalTo("group",groupName)
-                                            .findAll();
-
+                .equalTo("group",groupName)
+                .findAll();
 
         ArrayList<CharSequence> result = new ArrayList<>();
 
@@ -130,6 +123,75 @@ public class NameListPresenter {
     }
 
 
+    /*Recovery methods for state of group list if the back button was pressed
+     *and the app was closed*/
+    public void saveTempGroup(ArrayList<CharSequence> nameList){
+        /*Method to save a temp group list of names so data isn't lost if the back button
+         * is pressed and the app closes.*/
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+        Group groupObject = realm.createObject(Group.class);
+        groupObject.setName("temp");
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        for(CharSequence name:nameList){
+            Person personObject = realm.createObject(Person.class);
+            personObject.setName(name.toString());
+            personObject.setGroup("temp");
+        }
+        realm.commitTransaction();
+
+        realm.close();
+    }
+
+    public ArrayList<CharSequence> restoreGroup(){
+        /*fetches the temporary group list that was saved when the back button is pressed
+        * and the app closes.*/
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<Person> people = realm.where(Person.class)
+                .equalTo("group","temp")
+                .findAll();
+
+        ArrayList<CharSequence> result = new ArrayList<>();
+
+        for(Person person:people){
+            result.add(person.getName());
+        }
+
+        realm.close();
+
+        return result;
+    }
+
+    public void deleteTempGroup(){
+        /*is called to ensure the temporary recovery group is erased to prevent unwanted storage*/
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<Group> groupResult = realm.where(Group.class)
+                .equalTo("name","temp")
+                .findAll();
+
+        if(!groupResult.isEmpty()){
+            realm.beginTransaction();
+            groupResult.first().removeFromRealm();
+            realm.commitTransaction();
+
+            RealmResults<Person> personResult = realm.where(Person.class)
+                    .equalTo("group","temp")
+                    .findAll();
+
+            int resultSize = personResult.size()-1;
+            realm.beginTransaction();
+            for(int i=resultSize; i>=0; i--){
+                personResult.get(i).removeFromRealm();
+            }
+            realm.commitTransaction();
+        }
+        realm.close();
+    }
 
 
 
