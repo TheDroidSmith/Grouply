@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_text_size">10sp</dimen>
+
+    <dimen name="top_margin_gap">10dp</dimen>
+
+    <!-- control fragment LANDSCAPE button margins. -->
+    <dimen name="load_group_button_top_margin">20dp</dimen>
+    <dimen name="save_button_top_margin">20dp</dimen>
+
+    <!-- add name dialog dimens -->
+    <dimen name="add_name_dialog_width">300dp</dimen>
+    <dimen name="add_name_dialog_height">250dp</dimen>
+</resources>

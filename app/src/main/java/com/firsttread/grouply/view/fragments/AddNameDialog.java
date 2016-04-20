@@ -26,11 +26,6 @@ public class AddNameDialog extends DialogFragment {
 
     private OnCompleteListener mListener;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int DIALOG_WIDTH = 1300;
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int DIALOG_HEIGHT = 1100;
-
     public static AddNameDialog newInstance(){
         return new AddNameDialog();
     }
@@ -43,10 +38,15 @@ public class AddNameDialog extends DialogFragment {
 
     @Override
     public void onResume() {
-        Window window = getDialog().getWindow();
-        window.setLayout(DIALOG_WIDTH, DIALOG_HEIGHT);
-        window.setGravity(Gravity.CENTER);
         super.onResume();
+
+        int dialog_width = getResources().getDimensionPixelSize(R.dimen.add_name_dialog_width);
+        int dialog_height = getResources().getDimensionPixelSize(R.dimen.add_name_dialog_height);
+
+        Window window = getDialog().getWindow();
+        window.setLayout(dialog_width, dialog_height);
+        window.setGravity(Gravity.CENTER);
+
     }
 
     @NonNull

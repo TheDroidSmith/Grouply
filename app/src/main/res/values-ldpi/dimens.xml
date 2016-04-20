@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_text_size">9sp</dimen>
 
-    <dimen name="button_text_size">11sp</dimen>
+    <!-- portrait -->
+    <dimen name="first_name_top_margin">0dp</dimen>
+    <dimen name="top_margin_gap">10dp</dimen>
 
-    <!-- ToDo: adjust dimens for email button addition -->
     <!-- control fragment LANDSCAPE button margins. -->
     <dimen name="load_group_button_top_margin">45dp</dimen>
     <dimen name="save_button_top_margin">15dp</dimen>
     <dimen name="top_buttons_top_margins">10dp</dimen>
 
-
-
+    <!-- add name dialog dimens -->
+    <dimen name="add_name_dialog_width">300dp</dimen>
+    <dimen name="add_name_dialog_height">220dp</dimen>
 </resources>
