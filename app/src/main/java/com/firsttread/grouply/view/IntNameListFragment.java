@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view.fragments;
+package com.firsttread.grouply.view;
 
 public interface IntNameListFragment {
 
@@ -27,7 +27,7 @@ public interface IntNameListFragment {
 
     void sortFlip();
 
-    void clearList();
+    void onClearList();
 
     void makeSaveGroupDialog();
 

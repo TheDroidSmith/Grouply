@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view;
+package com.firsttread.grouply;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,23 +31,24 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.firsttread.grouply.R;
-import com.firsttread.grouply.model.Group;
-import com.firsttread.grouply.model.Person;
-import com.firsttread.grouply.view.fragments.AddNameDialog;
-import com.firsttread.grouply.view.fragments.NameListFragment;
+import com.firsttread.grouply.presenter.IntSinglePresenter;
+import com.firsttread.grouply.presenter.SingleGroupPresenter;
+import com.firsttread.grouply.view.IntSingleView;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
-public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
+
+public class SingleGroup extends AppCompatActivity implements IntSingleView {
+
+    IntSinglePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_group);
+
+        presenter = new SingleGroupPresenter(this);
 
         //sets up a realm and sets is as default
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
@@ -84,8 +85,9 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
         }
     }
 
+
     @Override
-    public void showDialog(){
+    public void onShowDialog(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
 
@@ -99,21 +101,14 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
     }
 
     @Override
-    public void clearRealm(){
+    public void onClearRealm(){
 
         new AlertDialog.Builder(this)
                 .setTitle("Delete All Saved Groups?")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Realm realm = Realm.getDefaultInstance();
-
-                        realm.beginTransaction();
-                        realm.clear(Group.class);
-                        realm.clear(Person.class);
-                        realm.commitTransaction();
-                        realm.close();
-
+                        presenter.clearRealm();
                         Toast.makeText(SingleGroup.this,"All Groups Deleted",Toast.LENGTH_LONG).show();
                     }
                 })
@@ -127,17 +122,9 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
     }
 
     @Override
-    public void deleteGroup(){
+    public void onDeleteGroup(){
 
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmQuery<Group> query = realm.where(Group.class);
-        RealmResults<Group> result = query.findAll();
-        CharSequence[] groupList = new CharSequence[result.size()];
-
-        for(int i=0;i<result.size();i++){
-            groupList[i] = result.get(i).getName();
-        }
+        CharSequence[] groupList = presenter.getGroupList();
 
         new AlertDialog.Builder(this)
                 .setTitle("Choose a Group to Delete")
@@ -145,32 +132,10 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Realm realm = Realm.getDefaultInstance();
-
                         ListView lv = ((AlertDialog)dialog).getListView();
                         String groupName = lv.getItemAtPosition(which).toString();
-                        RealmResults<Group> groupResult = realm.where(Group.class)
-                                                            .equalTo("name",groupName)
-                                                            .findAll();
 
-                        if(!groupResult.isEmpty()){
-                            realm.beginTransaction();
-                            groupResult.first().removeFromRealm();
-                            realm.commitTransaction();
-
-                            RealmResults<Person> personResult = realm.where(Person.class)
-                                    .equalTo("group",groupName)
-                                    .findAll();
-
-                            int resultSize = personResult.size()-1;
-                            realm.beginTransaction();
-                            for(int i=resultSize; i>=0; i--){
-                                personResult.get(i).removeFromRealm();
-                            }
-                            realm.commitTransaction();
-                        }
-
-                        realm.close();
+                        presenter.deleteGroup(groupName);
 
                         Toast.makeText(SingleGroup.this,"Group Deleted",Toast.LENGTH_LONG).show();
                     }
@@ -181,12 +146,11 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
     }
 
-
-    //gives ability to change title from fragment
     @Override
-    public void changeTitle(String newTitle) {
+    public void onChangeTitle(String newTitle) {
         setTitle(newTitle);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,13 +165,13 @@ public class SingleGroup extends AppCompatActivity implements IntSingleGroup{
 
         switch (id){
             case R.id.add_item:
-                showDialog();
+                presenter.showDialog();
                 return true;
             case R.id.clear_groups:
-                clearRealm();
+                onClearRealm();
                 return true;
             case R.id.delete_group:
-                deleteGroup();
+                onDeleteGroup();
                 return true;
         }
 

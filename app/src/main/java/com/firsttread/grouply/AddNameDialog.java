@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view.fragments;
+package com.firsttread.grouply;
 
 import android.app.Dialog;
 
@@ -35,9 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firsttread.grouply.R;
-import com.firsttread.grouply.view.SingleGroup;
-
+import com.firsttread.grouply.view.IntSingleView;
 
 public class AddNameDialog extends DialogFragment {
 
@@ -103,7 +101,7 @@ public class AddNameDialog extends DialogFragment {
                     dismiss();
                     Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
                 }else{
-                    ((SingleGroup)getActivity()).changeTitle("Grouply: NOT SAVED!");
+                    ((IntSingleView)getActivity()).onChangeTitle("Grouply: NOT SAVED!");
                     if(event.getAction() == KeyEvent.ACTION_DOWN){
                         switch (keyCode){
 
@@ -147,7 +145,7 @@ public class AddNameDialog extends DialogFragment {
                     dismiss();
                     Toast.makeText(getContext(),"Add Name Failed: A first name is required",Toast.LENGTH_LONG).show();
                 }else{
-                    ((SingleGroup)getActivity()).changeTitle("Grouply: NOT SAVED!");
+                    ((IntSingleView)getActivity()).onChangeTitle("Grouply: NOT SAVED!");
                     listenerRef.onComplete(newName);
 
                     ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))

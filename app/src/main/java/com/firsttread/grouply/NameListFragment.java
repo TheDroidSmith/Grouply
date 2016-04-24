@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view.fragments;
+package com.firsttread.grouply;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,11 +40,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firsttread.grouply.presenter.NameListPresenter;
-import com.firsttread.grouply.view.SingleGroup;
-import com.firsttread.grouply.view.fragments.SingleControlFragment.MyAction;
+import com.firsttread.grouply.view.IntNameListFragment;
+import com.firsttread.grouply.SingleControlFragment.MyAction;
 
-import com.firsttread.grouply.R;
-import com.firsttread.grouply.view.adapters.NameListAdapter;
+import com.firsttread.grouply.adapters.NameListAdapter;
+import com.firsttread.grouply.view.IntSingleView;
 
 import java.util.ArrayList;
 
@@ -76,7 +76,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                                     findViewById(R.id.cardText)).getText().toString();
 
             adapter.removeFromList(deletedName);
-            adapter.notifyDataSetChanged();
         }
     };
 
@@ -85,7 +84,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listPresenter = new NameListPresenter();
+        listPresenter = new NameListPresenter(this);
     }
 
     @Override
@@ -109,7 +108,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
         if(doRestore){
             adapter.setNames(listPresenter.restoreGroup());
-            adapter.notifyDataSetChanged();
             listPresenter.deleteTempGroup();
         }
 
@@ -159,7 +157,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     @Override
     public void onComplete(String name) {
         adapter.addNew(name);
-        adapter.notifyItemInserted(adapter.getItemCount());
     }
 
 
@@ -190,7 +187,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                 makeAddGroupDialog();
                 break;
             case CLEAR_LIST:
-                clearList();
+                listPresenter.clearList();
                 break;
             case EMAIL_GROUP:
                 makeEmailDialog();
@@ -207,19 +204,16 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     @Override
     public void sortLastName(){
         adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void sortFirstName(){
         adapter.setNames(listPresenter.sortFirstName(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void sortRandom(){
         adapter.setNames(listPresenter.sortShuffle(adapter.getNameList()));
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -229,15 +223,14 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
     @Override
-    public void clearList(){
+    public void onClearList(){
         new AlertDialog.Builder(getActivity())
                 .setTitle("Clear Current List?")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.clearNamesList();
-                        adapter.notifyDataSetChanged();
-                        ((SingleGroup)getActivity()).changeTitle("Grouply");
+                        ((IntSingleView)getActivity()).onChangeTitle("Grouply");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -292,12 +285,12 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         }else{
                             if(adapter.getNameList().isEmpty()){
                                 Toast.makeText(getContext(),"Save Failed: Group Empty!",Toast.LENGTH_LONG).show();
-                                ((SingleGroup)getActivity()).changeTitle("Grouply");
+                                ((IntSingleView)getActivity()).onChangeTitle("Grouply");
                                 dialog.dismiss();
                             }else{
                                 listPresenter.saveGroup(adapter.getNameList(),groupName);
 
-                                ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
+                                ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupName);
                                 Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
                             }
                         }
@@ -323,7 +316,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                                         Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
                                     }else{
                                         listPresenter.saveGroup(adapter.getNameList(),groupName);
-                                        ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupName);
+                                        ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupName);
 
                                         Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
                                     }
@@ -355,9 +348,8 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                         //and rebuild adapter
                         ListView lv = ((AlertDialog)dialog).getListView();
                         String groupText = lv.getItemAtPosition(which).toString();
-                        adapter.setNames(listPresenter.getSavedList(groupText));
-                        adapter.notifyDataSetChanged();
-                        ((SingleGroup)getActivity()).changeTitle("Grouply: " + groupText);
+                        adapter.setNames(listPresenter.getSavedGroup(groupText));
+                        ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupText);
                         Toast.makeText(getContext(),"Group " + groupText + " added",Toast.LENGTH_LONG).show();
                     }
                 })

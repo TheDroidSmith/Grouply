@@ -17,8 +17,11 @@
 
 package com.firsttread.grouply.presenter;
 
+import com.firsttread.grouply.model.DatabaseInteractor;
 import com.firsttread.grouply.model.Group;
+import com.firsttread.grouply.model.IDatabase;
 import com.firsttread.grouply.model.Person;
+import com.firsttread.grouply.view.IntNameListFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,14 +31,19 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class NameListPresenter {
+public class NameListPresenter implements IntListPresenter{
 
-    public NameListPresenter(){
+    private IDatabase dbInteractor;
+    private IntNameListFragment iNameFrag;
 
+    public NameListPresenter(IntNameListFragment iNameFrag){
+        this.iNameFrag = iNameFrag;
+        this.dbInteractor = new DatabaseInteractor();
     }
 
 
     //sorting action methods
+    @Override
     public ArrayList<CharSequence> sortFirstName(ArrayList<CharSequence> nameList){
         Collections.sort(nameList, new Comparator<CharSequence>() {
             @Override
@@ -48,6 +56,7 @@ public class NameListPresenter {
         return nameList;
     }
 
+    @Override
     public ArrayList<CharSequence> sortLastName(ArrayList<CharSequence> nameList){
 
         Collections.sort(nameList, new Comparator<CharSequence>() {
@@ -67,76 +76,36 @@ public class NameListPresenter {
         return nameList;
     }
 
+    @Override
     public ArrayList<CharSequence> sortShuffle(ArrayList<CharSequence> nameList){
         Collections.shuffle(nameList);
         return nameList;
     }
 
+    @Override
     public ArrayList<CharSequence> sortFlip(ArrayList<CharSequence> nameList){
         Collections.reverse(nameList);
         return nameList;
     }
 
+    @Override
+    public void clearList() {
+        iNameFrag.onClearList();
+    }
 
-    //save and load methods
+
+    /*save and load methods*/
     public void saveGroup(final ArrayList<CharSequence> nameList,final String groupName){
-
-        Realm realm = Realm.getDefaultInstance();
-
-        realm.beginTransaction();
-        Group groupObject = realm.createObject(Group.class);
-        groupObject.setName(groupName);
-        realm.commitTransaction();
-
-        realm.beginTransaction();
-        for(CharSequence name:nameList){
-            Person personObject = realm.createObject(Person.class);
-            personObject.setName(name.toString());
-            personObject.setGroup(groupName);
-        }
-
-        realm.commitTransaction();
-        realm.close();
-
+        dbInteractor.addGroup(nameList,groupName);
     }
 
+    //uses CharSequence array because the dialog builder requires an array
     public CharSequence[] getGroupList(){
-
-        //uses CharSequence array because the dialog builder requires an array
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmQuery<Group> query = realm.where(Group.class);
-
-        RealmResults<Group> result = query.findAll();
-
-        CharSequence[] groupList = new CharSequence[result.size()];
-
-        for(int i=0;i<result.size();i++){
-            groupList[i] = result.get(i).getName();
-        }
-
-        realm.close();
-
-        return groupList;
+        return dbInteractor.getGroupNames();
     }
 
-    public ArrayList<CharSequence> getSavedList(String groupName){
-
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<Person> people = realm.where(Person.class)
-                .equalTo("group",groupName)
-                .findAll();
-
-        ArrayList<CharSequence> result = new ArrayList<>();
-
-        for(Person person:people){
-            result.add(person.getName());
-        }
-
-        realm.close();
-
-        return result;
+    public ArrayList<CharSequence> getSavedGroup(String groupName){
+        return dbInteractor.getGroup(groupName);
     }
 
 
@@ -209,16 +178,6 @@ public class NameListPresenter {
         }
         realm.close();
     }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -10,7 +10,7 @@
     <string name="button_first">First Name</string>
     <string name="button_add_group">Load</string>
     <string name="add_group_title">Select a Group</string>
-    <string name="action_clear">Clear Saved Groups</string>
+    <string name="action_clear">Delete All Groups</string>
     <string name="action_delete_group">Delete Group</string>
     <string name="button_clear">Clear</string>
     <string name="button_email">Email</string>

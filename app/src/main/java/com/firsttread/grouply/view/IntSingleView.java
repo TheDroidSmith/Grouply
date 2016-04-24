@@ -17,14 +17,15 @@
 
 package com.firsttread.grouply.view;
 
-public interface IntSingleGroup {
 
-    void showDialog();
+public interface IntSingleView {
 
-    void clearRealm();
+    void onShowDialog();
 
-    void deleteGroup();
+    void onClearRealm();
 
-    void changeTitle(String newTitle);
+    void onDeleteGroup();
+
+    void onChangeTitle(String newTitle);
 
 }

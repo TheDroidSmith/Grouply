@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view.adapters;
+package com.firsttread.grouply.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +45,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
     public void addNew(String name){
         names.add(name);
+        notifyItemInserted(getItemCount());
     }
 
     public ArrayList<CharSequence> getNameList(){
@@ -53,14 +54,17 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
 
     public void removeFromList(CharSequence deletedName){
         names.remove(deletedName);
+        notifyDataSetChanged();
     }
 
     public void setNames(ArrayList<CharSequence> names) {
         this.names = names;
+        notifyDataSetChanged();
     }
 
     public void clearNamesList(){
         names.clear();
+        notifyDataSetChanged();
     }
 
 

@@ -7,7 +7,7 @@
     tools:context="com.firsttread.grouply.view.MainActivity">
 
     <fragment
-        android:name="com.firsttread.grouply.view.fragments.NameListFragment"
+        android:name="com.firsttread.grouply.NameListFragment"
         android:id="@+id/list"
         android:layout_weight="2"
         android:layout_width="0dp"
@@ -15,7 +15,7 @@
         />
 
     <fragment
-        android:name="com.firsttread.grouply.view.fragments.SingleControlFragment"
+        android:name="com.firsttread.grouply.SingleControlFragment"
         android:id="@+id/control"
         android:layout_weight="1"
         android:layout_width="0dp"

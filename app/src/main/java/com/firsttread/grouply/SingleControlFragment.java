@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.firsttread.grouply.view.fragments;
+package com.firsttread.grouply;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -80,10 +80,6 @@ public class SingleControlFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
 
     //Interface for NameListFragment to listen for button clicks and their actions
@@ -162,9 +158,4 @@ public class SingleControlFragment extends Fragment {
     };
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
 }
