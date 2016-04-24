@@ -39,6 +39,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firsttread.grouply.presenter.IntListPresenter;
 import com.firsttread.grouply.presenter.NameListPresenter;
 import com.firsttread.grouply.view.IntNameListFragment;
 import com.firsttread.grouply.SingleControlFragment.MyAction;
@@ -54,7 +55,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     private String groupName;// for use in saveGroup
 
     private ArrayList<CharSequence> savedNames;
-    private NameListPresenter listPresenter;
+    private IntListPresenter listPresenter;
 
     protected RecyclerView recyclerView;
     protected NameListAdapter adapter;
@@ -115,8 +116,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         editor.putBoolean(getString(R.string.does_save_exist),false);
         editor.apply();
 
-
-
     }
 
     @Override
@@ -126,7 +125,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         savedNames = adapter.getNameList();
         outState.putCharSequenceArrayList("nameList", savedNames);
     }
-
 
 
     @Nullable
@@ -200,7 +198,7 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     }
 
 
-    //action methods
+    /*action methods*/
     @Override
     public void sortLastName(){
         adapter.setNames(listPresenter.sortLastName(adapter.getNameList()));

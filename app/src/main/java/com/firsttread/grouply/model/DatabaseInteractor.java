@@ -107,4 +107,78 @@ public class DatabaseInteractor implements IDatabase {
 
         return result;
     }
+
+    @Override
+    public ArrayList<CharSequence> getTempGroup() {
+
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<Person> people = realm.where(Person.class)
+                .equalTo("group","temp")
+                .findAll();
+
+        ArrayList<CharSequence> result = new ArrayList<>();
+
+        for(Person person:people){
+            result.add(person.getName());
+        }
+
+        realm.close();
+
+        return result;
+
+    }
+
+    @Override
+    public void removeTempGroup() {
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<Group> groupResult = realm.where(Group.class)
+                .equalTo("name","temp")
+                .findAll();
+
+        if(!groupResult.isEmpty()){
+            realm.beginTransaction();
+            groupResult.first().removeFromRealm();
+            realm.commitTransaction();
+
+            RealmResults<Person> personResult = realm.where(Person.class)
+                    .equalTo("group","temp")
+                    .findAll();
+
+            int resultSize = personResult.size()-1;
+            realm.beginTransaction();
+            for(int i=resultSize; i>=0; i--){
+                personResult.get(i).removeFromRealm();
+            }
+            realm.commitTransaction();
+        }
+        realm.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

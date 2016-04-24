@@ -14,4 +14,7 @@ public interface IDatabase {
 
     ArrayList<CharSequence> getGroup(String groupName);
 
+    ArrayList<CharSequence> getTempGroup();
+
+    void removeTempGroup();
 }

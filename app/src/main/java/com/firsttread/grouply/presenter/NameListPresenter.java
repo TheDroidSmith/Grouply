@@ -42,6 +42,7 @@ public class NameListPresenter implements IntListPresenter{
     }
 
 
+
     //sorting action methods
     @Override
     public ArrayList<CharSequence> sortFirstName(ArrayList<CharSequence> nameList){
@@ -94,21 +95,27 @@ public class NameListPresenter implements IntListPresenter{
     }
 
 
+
+    @Override
     /*save and load methods*/
     public void saveGroup(final ArrayList<CharSequence> nameList,final String groupName){
         dbInteractor.addGroup(nameList,groupName);
     }
 
+    @Override
     //uses CharSequence array because the dialog builder requires an array
     public CharSequence[] getGroupList(){
         return dbInteractor.getGroupNames();
     }
 
+    @Override
     public ArrayList<CharSequence> getSavedGroup(String groupName){
         return dbInteractor.getGroup(groupName);
     }
 
 
+
+    @Override
     /*Recovery methods for state of group list if the back button was pressed
      *and the app was closed*/
     public void saveTempGroup(ArrayList<CharSequence> nameList){
@@ -132,53 +139,17 @@ public class NameListPresenter implements IntListPresenter{
         realm.close();
     }
 
+    @Override
     public ArrayList<CharSequence> restoreGroup(){
         /*fetches the temporary group list that was saved when the back button is pressed
         * and the app closes.*/
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<Person> people = realm.where(Person.class)
-                .equalTo("group","temp")
-                .findAll();
-
-        ArrayList<CharSequence> result = new ArrayList<>();
-
-        for(Person person:people){
-            result.add(person.getName());
-        }
-
-        realm.close();
-
-        return result;
+        return dbInteractor.getTempGroup();
     }
 
+    @Override
     public void deleteTempGroup(){
         /*is called to ensure the temporary recovery group is erased to prevent unwanted storage*/
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<Group> groupResult = realm.where(Group.class)
-                .equalTo("name","temp")
-                .findAll();
-
-        if(!groupResult.isEmpty()){
-            realm.beginTransaction();
-            groupResult.first().removeFromRealm();
-            realm.commitTransaction();
-
-            RealmResults<Person> personResult = realm.where(Person.class)
-                    .equalTo("group","temp")
-                    .findAll();
-
-            int resultSize = personResult.size()-1;
-            realm.beginTransaction();
-            for(int i=resultSize; i>=0; i--){
-                personResult.get(i).removeFromRealm();
-            }
-            realm.commitTransaction();
-        }
-        realm.close();
+        dbInteractor.removeTempGroup();
     }
-
-
 
 }

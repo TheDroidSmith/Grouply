@@ -14,4 +14,15 @@ public interface IntListPresenter {
 
     void clearList();
 
+    ArrayList<CharSequence> restoreGroup();
+
+    void saveGroup(final ArrayList<CharSequence> nameList,final String groupName);
+
+    ArrayList<CharSequence> getSavedGroup(String groupName);
+
+    CharSequence[] getGroupList();
+
+    void saveTempGroup(ArrayList<CharSequence> nameList);
+
+    void deleteTempGroup();
 }
