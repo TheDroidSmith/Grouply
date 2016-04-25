@@ -68,7 +68,6 @@ public class SingleControlFragment extends Fragment {
         CardView clear_btn = (CardView) getView().findViewById(R.id.clear_list);
         CardView email_btn = (CardView) getView().findViewById(R.id.email_group);
 
-
         sort_first_btn.setOnClickListener(sortByFirst);
         sort_last_btn.setOnClickListener(sortByLast);
         sort_random_btn.setOnClickListener(sortRandom);
@@ -77,7 +76,6 @@ public class SingleControlFragment extends Fragment {
         add_group_btn.setOnClickListener(addGroup);
         clear_btn.setOnClickListener(clearList);
         email_btn.setOnClickListener(emailGroup);
-
     }
 
 

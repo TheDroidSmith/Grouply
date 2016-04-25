@@ -122,8 +122,11 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        savedNames = adapter.getNameList();
-        outState.putCharSequenceArrayList("nameList", savedNames);
+        if(!adapter.getNameList().isEmpty()){
+            savedNames = adapter.getNameList();
+            outState.putCharSequenceArrayList("nameList", savedNames);
+        }
+
     }
 
 
@@ -269,67 +272,65 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
         groupName = null;
 
         final View v = getActivity().getLayoutInflater().inflate(R.layout.save_group_dialog,null);
+        if(adapter.getNameList().isEmpty()){
+            Toast.makeText(getContext(),"Save Failed: Group Empty!",Toast.LENGTH_LONG).show();
+            ((IntSingleView)getActivity()).onChangeTitle("Grouply");
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                    .setView(v)
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        EditText editText = (EditText) v.findViewById(R.id.editGroup);
-                        groupName = editText.getText().toString();
-                        if(groupName.isEmpty()){
-                            Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
-                        }else{
-                            if(adapter.getNameList().isEmpty()){
-                                Toast.makeText(getContext(),"Save Failed: Group Empty!",Toast.LENGTH_LONG).show();
-                                ((IntSingleView)getActivity()).onChangeTitle("Grouply");
-                                dialog.dismiss();
+                            EditText editText = (EditText) v.findViewById(R.id.editGroup);
+                            groupName = editText.getText().toString();
+                            if(groupName.isEmpty()){
+                                Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
                             }else{
                                 listPresenter.saveGroup(adapter.getNameList(),groupName);
-
                                 ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupName);
                                 Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
                             }
+                            dialog.dismiss();
+
                         }
-                        dialog.dismiss();
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                            if(event.getAction() == KeyEvent.ACTION_DOWN){
 
-                        if(event.getAction() == KeyEvent.ACTION_DOWN){
+                                switch (keyCode){
+                                    case KeyEvent.KEYCODE_ENTER:
+                                        EditText editText = (EditText) v.findViewById(R.id.editGroup);
+                                        groupName = editText.getText().toString();
+                                        if(groupName.isEmpty()){
+                                            Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
+                                        }else{
+                                            listPresenter.saveGroup(adapter.getNameList(),groupName);
+                                            ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupName);
 
-                            switch (keyCode){
-                                case KeyEvent.KEYCODE_ENTER:
-                                    EditText editText = (EditText) v.findViewById(R.id.editGroup);
-                                    groupName = editText.getText().toString();
-                                    if(groupName.isEmpty()){
-                                        Toast.makeText(getContext(),"Save Failed: Group Name Required!",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        listPresenter.saveGroup(adapter.getNameList(),groupName);
-                                        ((IntSingleView)getActivity()).onChangeTitle("Grouply: " + groupName);
-
-                                        Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
-                                    }
-                                    dialog.dismiss();
-                                default:
-                                    break;
+                                            Toast.makeText(getContext(),"Group Saved!",Toast.LENGTH_LONG).show();
+                                        }
+                                        dialog.dismiss();
+                                    default:
+                                        break;
+                                }
                             }
+                            return false;
                         }
-                        return false;
-                    }
-                });
+                    });
 
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        dialog.show();
+            AlertDialog dialog = builder.create();
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            dialog.show();
+        }
+
     }
 
     //loads group form realm
