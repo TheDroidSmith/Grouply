@@ -148,7 +148,7 @@ public class NameListPresenter implements IntListPresenter{
 
     @Override
     public void deleteTempGroup(){
-        /*is called to ensure the temporary recovery group is erased to prevent unwanted storage*/
+        //called to ensure the temporary recovery group is erased to prevent unwanted saves
         dbInteractor.removeTempGroup();
     }
 

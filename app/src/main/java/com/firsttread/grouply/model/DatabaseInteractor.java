@@ -21,6 +21,8 @@ public class DatabaseInteractor implements IDatabase {
             groupList[i] = result.get(i).getName();
         }
 
+        realm.close();
+
         return groupList;
 
     }
@@ -155,30 +157,6 @@ public class DatabaseInteractor implements IDatabase {
         }
         realm.close();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
