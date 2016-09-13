@@ -68,6 +68,7 @@ public class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ViewHo
     }
 
 
+
     @Override
     public void onBindViewHolder(NameListAdapter.ViewHolder holder, int position) {
         holder.getCardText().setText(names.get(position));

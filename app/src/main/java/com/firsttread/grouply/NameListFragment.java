@@ -382,4 +382,6 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
 
     }
+
+
 }

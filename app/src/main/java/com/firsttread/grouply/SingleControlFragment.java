@@ -76,6 +76,7 @@ public class SingleControlFragment extends Fragment {
         add_group_btn.setOnClickListener(addGroup);
         clear_btn.setOnClickListener(clearList);
         email_btn.setOnClickListener(emailGroup);
+
     }
 
 
