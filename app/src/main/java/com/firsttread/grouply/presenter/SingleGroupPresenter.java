@@ -36,4 +36,7 @@ public class SingleGroupPresenter implements IntSinglePresenter{
         dbInteractor.removeFromRealm(groupName);
     }
 
+
+
+
 }

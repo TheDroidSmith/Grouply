@@ -16,7 +16,7 @@
 */
 
 package com.firsttread.grouply.view;
-
+import com.github.angads25.filepicker.model.DialogProperties;
 
 public interface IntSingleView {
 
@@ -27,5 +27,7 @@ public interface IntSingleView {
     void onDeleteGroup();
 
     void onChangeTitle(String newTitle);
+
+    void setupFilePickerDialog(DialogProperties properties);
 
 }
