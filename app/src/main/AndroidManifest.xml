@@ -17,6 +17,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".SingleGroup">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SingleGroup" />
+        </activity>
+
     </application>
 
 </manifest>

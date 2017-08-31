@@ -19,6 +19,7 @@ package com.firsttread.grouply;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -181,6 +182,10 @@ public class SingleGroup extends AppCompatActivity implements IntSingleView {
                 return true;
             case R.id.delete_group:
                 onDeleteGroup();
+                return true;
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
         }
 
