@@ -35,5 +35,8 @@
     <string name="choose_button_label">Select</string>
     <string name="show_dialog">Show Dialog</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="directory_hint">Where are you files most often?</string>
+    <string name="change_directory">Change Directory</string>
+    <string name="default_directory">sdcard/</string>
 
 </resources>
