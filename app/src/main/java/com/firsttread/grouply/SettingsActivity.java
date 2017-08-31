@@ -20,7 +20,6 @@ import com.github.angads25.filepicker.view.FilePickerPreference;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
-
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,9 +86,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
         return false;
     }
-
-
-
 
 }
 

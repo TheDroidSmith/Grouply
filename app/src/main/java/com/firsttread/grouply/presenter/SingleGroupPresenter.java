@@ -7,8 +7,8 @@ import com.firsttread.grouply.view.IntSingleView;
 
 public class SingleGroupPresenter implements IntSinglePresenter{
 
-    IntSingleView singleView;
-    IDatabase dbInteractor;
+    private IntSingleView singleView;
+    private IDatabase dbInteractor;
 
     public SingleGroupPresenter(IntSingleView singleView) {
         this.singleView = singleView;
@@ -35,7 +35,6 @@ public class SingleGroupPresenter implements IntSinglePresenter{
     public void deleteGroup(String groupName) {
         dbInteractor.removeFromRealm(groupName);
     }
-
 
 
 

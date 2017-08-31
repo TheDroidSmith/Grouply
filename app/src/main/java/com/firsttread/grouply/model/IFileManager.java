@@ -1,10 +1,7 @@
 package com.firsttread.grouply.model;
 
+import java.util.ArrayList;
 
 public interface IFileManager {
-
-    void importFile();
-    void parseFile();
-
-
+    ArrayList<CharSequence> importFile(String[] path);
 }

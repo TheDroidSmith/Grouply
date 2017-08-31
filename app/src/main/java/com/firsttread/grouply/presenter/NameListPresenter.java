@@ -18,8 +18,10 @@
 package com.firsttread.grouply.presenter;
 
 import com.firsttread.grouply.model.DatabaseInteractor;
+import com.firsttread.grouply.model.FileManager;
 import com.firsttread.grouply.model.Group;
 import com.firsttread.grouply.model.IDatabase;
+import com.firsttread.grouply.model.IFileManager;
 import com.firsttread.grouply.model.Person;
 import com.firsttread.grouply.view.IntNameListFragment;
 
@@ -36,9 +38,13 @@ public class NameListPresenter implements IntListPresenter{
     private IDatabase dbInteractor;
     private IntNameListFragment iNameFrag;
 
+    private IFileManager fileManager;
+
     public NameListPresenter(IntNameListFragment iNameFrag){
         this.iNameFrag = iNameFrag;
         this.dbInteractor = new DatabaseInteractor();
+
+        this.fileManager = new FileManager();
     }
 
 
@@ -145,6 +151,12 @@ public class NameListPresenter implements IntListPresenter{
         * and the app closes.*/
         return dbInteractor.getTempGroup();
     }
+
+    @Override
+    public ArrayList<CharSequence> getFileAtPath(String[] path) {
+        return fileManager.importFile(path);
+    }
+
 
     @Override
     public void deleteTempGroup(){

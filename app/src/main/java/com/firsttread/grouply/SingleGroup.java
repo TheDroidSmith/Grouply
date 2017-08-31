@@ -35,12 +35,6 @@ import android.widget.Toast;
 import com.firsttread.grouply.presenter.IntSinglePresenter;
 import com.firsttread.grouply.presenter.SingleGroupPresenter;
 import com.firsttread.grouply.view.IntSingleView;
-import com.github.angads25.filepicker.controller.DialogSelectionListener;
-import com.github.angads25.filepicker.model.DialogConfigs;
-import com.github.angads25.filepicker.model.DialogProperties;
-import com.github.angads25.filepicker.view.FilePickerDialog;
-
-import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -48,6 +42,7 @@ import io.realm.RealmConfiguration;
 public class SingleGroup extends AppCompatActivity implements IntSingleView {
 
     private IntSinglePresenter presenter;
+    private final String TAG = "SingleGroupActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +54,6 @@ public class SingleGroup extends AppCompatActivity implements IntSingleView {
         //sets up a realm and sets it as default
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
-
-        //setting up file picker
-        DialogProperties properties = new DialogProperties();
-        setupFilePickerDialog(properties);
 
         SharedPreferences sharedPref =
                 getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -95,7 +86,9 @@ public class SingleGroup extends AppCompatActivity implements IntSingleView {
         }
     }
 
-
+    //==========================
+    //IntSingleView
+    //==========================
     @Override
     public void onShowDialog(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -193,28 +186,6 @@ public class SingleGroup extends AppCompatActivity implements IntSingleView {
     }
 
 
-    @Override
-    public void setupFilePickerDialog(DialogProperties properties) {
-
-        properties.selection_mode = DialogConfigs.SINGLE_MODE;
-        properties.selection_type = DialogConfigs.FILE_SELECT;
-        properties.root = new File(DialogConfigs.DEFAULT_DIR);
-        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
-        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
-        properties.extensions = null;
-
-        FilePickerDialog dialog = new FilePickerDialog(this,properties);
-        dialog.setTitle("Select a File");
-
-        dialog.setDialogSelectionListener(new DialogSelectionListener() {
-            @Override
-            public void onSelectedFilePaths(String[] files) {
-                //files are in an array of the paths of files selected by the Application User.
-
-            }
-        });
-
-    }
 
 }
 

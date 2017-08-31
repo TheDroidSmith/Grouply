@@ -46,7 +46,12 @@ import com.firsttread.grouply.SingleControlFragment.MyAction;
 
 import com.firsttread.grouply.adapters.NameListAdapter;
 import com.firsttread.grouply.view.IntSingleView;
+import com.github.angads25.filepicker.controller.DialogSelectionListener;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class NameListFragment extends Fragment implements AddNameDialog.OnCompleteListener,
@@ -333,7 +338,8 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
 
     }
 
-    //loads group form realm
+    //loads group from realm
+    //option to import from file system also here
     @Override
     public void makeAddGroupDialog(){
 
@@ -353,15 +359,54 @@ public class NameListFragment extends Fragment implements AddNameDialog.OnComple
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    }
+
+                })
+                .setPositiveButton("import", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onShowFileSelectionDialog();
+                    }
+                });
 
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    @Override
+    public void onShowFileSelectionDialog() {
+        //setting up file picker
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.FILE_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+
+        FilePickerDialog dialog = new FilePickerDialog(getActivity(),properties);
+        dialog.setTitle("Select a File");
+
+        dialog.setDialogSelectionListener(new DialogSelectionListener() {
+            @Override
+            public void onSelectedFilePaths(String[] files) {
+                //files are in an array of the paths of files selected by the Application User.
+                ArrayList<CharSequence> nameList;
+                nameList = listPresenter.getFileAtPath(files);
+                if(nameList.isEmpty()){
+                    Toast.makeText(getActivity(),"List is empty! Did you select the correct file?",Toast.LENGTH_SHORT).show();
+                }else{
+                    adapter.setNames(nameList);
+                }
+
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

@@ -37,4 +37,6 @@ public interface IntNameListFragment {
 
     int saveOnPressBackButton();
 
+    void onShowFileSelectionDialog();
+
 }

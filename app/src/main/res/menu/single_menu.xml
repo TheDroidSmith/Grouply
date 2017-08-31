@@ -11,19 +11,25 @@
 
     <item
         android:id="@+id/delete_group"
-        android:orderInCategory="98"
+        android:orderInCategory="96"
         android:title="@string/action_delete_group"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/clear_groups"
-        android:orderInCategory="99"
+        android:orderInCategory="97"
         android:title="@string/action_clear"
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/import_group"
+        android:orderInCategory="98"
+        android:title="@string/action_import"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/settings"
-        android:orderInCategory="100"
+        android:orderInCategory="99"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 

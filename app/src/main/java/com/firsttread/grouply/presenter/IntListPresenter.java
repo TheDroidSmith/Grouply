@@ -25,4 +25,6 @@ public interface IntListPresenter {
     void saveTempGroup(ArrayList<CharSequence> nameList);
 
     void deleteTempGroup();
+
+    ArrayList<CharSequence> getFileAtPath(String[] path);
 }
