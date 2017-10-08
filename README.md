@@ -1,5 +1,6 @@
 ## Project Name
 Grouply
+[Project Page](http://thedroidsmith.com/grouply.html)
 
 ## Installation
 Grouply is an Android app that can be found on Google Play.
