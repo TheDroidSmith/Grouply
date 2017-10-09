@@ -1,3 +1,5 @@
+![alt text](http://thedroidsmith.com/images/portfolio/grouply.png)
+
 ## Project Name
 Grouply
 [Project Page](http://thedroidsmith.com/grouply.html)
